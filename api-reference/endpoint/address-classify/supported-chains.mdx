@@ -1,0 +1,42 @@
+---
+title: 'Supported Chains'
+description: 'Blockchain networks supported by the Address Classification endpoint'
+---
+
+| Chain ID | Network Key | Network Name |
+|---------|-------------|--------------|
+| 1 | eth | Ethereum Mainnet |
+| 10 | optim | Optimism |
+| 56 | bsc | BNB Smart Chain |
+| 97 | testnet.bsc | BNB Smart Chain Testnet |
+| 137 | poly | Polygon |
+| 143 | monad | Monad |
+| 146 | sonic | Sonic |
+| 204 | opbnb | opBNB |
+| 324 | era.zksync | zkSync Era |
+| 1284 | moonbeam | Moonbeam |
+| 5000 | mantle | Mantle |
+| 8453 | base | Base |
+| 10143 | testnet.monad | Monad Testnet |
+| 11124 | abstract | Abstract |
+| 42161 | arbi | Arbitrum One |
+| 42170 | nova.arbi | Arbitrum Nova |
+| 43114 | avax | Avalanche |
+| 59144 | linea | Linea |
+| 80094 | bera | Berachain |
+
+## Usage
+
+Include the `chainId` parameter in your request body:
+
+```json
+{
+  "chainId": "1",
+  "address": "0x..."
+}
+```
+
+<Info>
+When making API requests, use the chain ID as a string value (e.g., `"1"` for Ethereum Mainnet or `"56"` for BNB Smart Chain).
+</Info>
+

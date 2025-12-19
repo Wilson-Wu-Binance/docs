@@ -3,7 +3,7 @@
   "theme": "mint",
   "name": "HashDit API Documentation",
   "colors": {
-    "primary": "#4063FF",
+    "primary": "#000000",
     "light": "#4063FF",
     "dark": "#4063FF"
   },
@@ -18,20 +18,59 @@
           {
             "group": "API documentation",
             "pages": [
-              "api-reference/introduction",
-              "api-reference/supported-chains"
+              "api-reference/introduction"
             ]
           },
           {
             "group": "Endpoints",
             "pages": [
-              "api-reference/endpoint/domain-security",
-              "api-reference/endpoint/address-classify",
-              "api-reference/endpoint/address-security-v2",
-              "api-reference/endpoint/token-security",
-              "api-reference/endpoint/transaction-security",
-              "api-reference/endpoint/txn-simulation",
-              "api-reference/endpoint/solana-token-security"
+              {
+                "group": "Domain Security",
+                "pages": [
+                  "api-reference/endpoint/domain-security"
+                ]
+              },
+              {
+                "group": "Address Classification",
+                "pages": [
+                  "api-reference/endpoint/address-classify",
+                  "api-reference/endpoint/address-classify/supported-chains"
+                ]
+              },
+              {
+                "group": "Address Security v2",
+                "pages": [
+                  "api-reference/endpoint/address-security-v2",
+                  "api-reference/endpoint/address-security-v2/supported-chains"
+                ]
+              },
+              {
+                "group": "Token Security",
+                "pages": [
+                  "api-reference/endpoint/token-security",
+                  "api-reference/endpoint/token-security/supported-chains"
+                ]
+              },
+              {
+                "group": "Transaction Security",
+                "pages": [
+                  "api-reference/endpoint/transaction-security",
+                  "api-reference/endpoint/transaction-security/supported-chains"
+                ]
+              },
+              {
+                "group": "Transaction Simulation",
+                "pages": [
+                  "api-reference/endpoint/txn-simulation",
+                  "api-reference/endpoint/txn-simulation/supported-chains"
+                ]
+              },
+              {
+                "group": "Solana Token Security",
+                "pages": [
+                  "api-reference/endpoint/solana-token-security"
+                ]
+              }
             ]
           }
         ]
@@ -47,7 +86,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@hashdit.io"
       }
     ],
     "primary": {
@@ -70,9 +109,11 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "website": "https://www.hashdit.io",
+      "x": "https://x.com/hashdit",
+      "github": "https://github.com/hashdit"
+
+
     }
   }
 }

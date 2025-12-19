@@ -1136,9 +1136,9 @@
 				"properties": {
 					"chainId": {
 						"type": "string",
-						"description": "Blockchain chain ID. Example: 1 for Ethereum",
+						"description": "The network chain ID. See [Supported Chains](/api-reference/endpoint/address-classify/supported-chains) for a complete list of supported network for this endpoint.",
 
-						"enum": ["1", "56"]
+						"example": "56"
 					},
 					"address": {
 						"type": "string",
@@ -1241,8 +1241,8 @@
 				"properties": {
 					"chainId": {
 						"type": "string",
-						"description": "Blockchain chain ID. Example: 56 for BNB Smart Chain.",
-						"enum": ["1", "56"]
+						"description": "The network chain ID. See [Supported Chains](/api-reference/endpoint/address-security-v2/supported-chains) for a complete list of supported networks for this endpoint.",
+						"example": "56"
 					},
 					"address": {
 						"type": "string",
@@ -1486,8 +1486,8 @@
 				"properties": {
 					"chain_id": {
 						"type": "string",
-						"description": "Blockchain chain ID. Example: 56 for BNB Smart Chain.",
-						"enum": ["1", "56"]
+						"description": "The network chain ID. See [Supported Chains](/api-reference/endpoint/txn-simulation/supported-chains) for a complete list of supported networks for this endpoint.",
+						"example": "56"
 					},
 					"block_height": {
 						"type": "string",
@@ -1941,8 +1941,8 @@
 				"properties": {
 					"chainId": {
 						"type": "string",
-						"description": "Blockchain chain ID (e.g. 56 for BNB Smart Chain).",
-						"enum": ["1", "56"]
+						"description": "The network chain ID. See [Supported Chains](/api-reference/endpoint/token-security/supported-chains) for a complete list of supported networks for this endpoint.",
+						"example": "56"
 					},
 					"address": {
 						"type": "string",
@@ -2183,8 +2183,8 @@
 				"properties": {
 					"chainId": {
 						"type": "string",
-						"description": "Blockchain chain ID (e.g. 56 for BNB Smart Chain).",
-						"enum": ["1", "56"]
+						"description": "The network chain ID. See [Supported Chains](/api-reference/endpoint/transaction-security/supported-chains) for a complete list of supported networks for this endpoint.",
+						"example": "56"
 					},
 					"from": {
 						"type": "string",

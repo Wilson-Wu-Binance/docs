@@ -1,0 +1,25 @@
+---
+title: 'Supported Chains'
+description: 'Blockchain networks supported by the Transaction Security endpoint'
+---
+
+| Chain ID | Network Key | Network Name |
+|---------|-------------|--------------|
+| 1 | eth | Ethereum Mainnet |
+| 56 | bsc | BNB Smart Chain |
+
+## Usage
+
+Include the `chainId` parameter in your request body:
+
+```json
+{
+  "chainId": "1",
+  "address": "0x..."
+}
+```
+
+<Info>
+When making API requests, use the chain ID as a string value (e.g., `"1"` for Ethereum Mainnet or `"56"` for BNB Smart Chain).
+</Info>
+
