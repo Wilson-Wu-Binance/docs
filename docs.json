@@ -28,6 +28,8 @@
               "api-reference/endpoint/domain-security",
               "api-reference/endpoint/address-classify",
               "api-reference/endpoint/address-security-v2",
+              "api-reference/endpoint/token-security",
+              "api-reference/endpoint/transaction-security",
               "api-reference/endpoint/txn-simulation",
               "api-reference/endpoint/solana-token-security"
             ]

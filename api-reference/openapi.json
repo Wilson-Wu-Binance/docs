@@ -2,7 +2,7 @@
 	"openapi": "3.1.0",
 	"info": {
 		"title": "HashDit API",
-		"description": "HashDit threat intelligence API for domain security analysis, blockchain address classification, address security assessment, transaction simulation, and Solana token security",
+		"description": "HashDit threat intelligence API for domain security analysis, blockchain address classification, address security assessment, transaction simulation, transaction security, token security, and Solana token security",
 		"version": "2.0.0"
 	},
 	"servers": [
@@ -801,6 +801,249 @@
 					}
 				}
 			}
+		},
+		"/v2/hashdit/token-security": {
+			"post": {
+				"summary": "Token Security",
+				"description": "Performs a comprehensive security and market analysis of an EVM-compatible token (e.g. ERC-20). The API evaluates contract privileges, minting capabilities, honeypot risks, ownership controls, market liquidity, holder distribution, transfer restrictions, and threat intelligence to determine the token's overall risk profile.",
+				"operationId": "tokenSecurity",
+				"parameters": [
+					{
+						"name": "X-API-Key",
+						"in": "header",
+						"description": "Your HashDit API key",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Token contract address to analyze",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TokenSecurityRequest"
+							},
+							"example": {
+								"chainId": "56",
+								"address": "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TokenSecurityResponse"
+								},
+								"example": {
+									"code": "0",
+									"status": "ok",
+									"data": {
+										"address": "bsc:0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
+										"address_type": "ERC20",
+										"overall_risk_level": "No Obvious Risk",
+										"overall_score": "90",
+										"basic_info": {
+											"token_name": "PancakeSwap Token",
+											"token_symbol": "Cake",
+											"token_decimals": "18",
+											"days_deployed": "1913",
+											"is_mintable": "1",
+											"is_in_dex": "1",
+											"verified": "1"
+										},
+										"privileges": {
+											"owner_address": "0x73feaa1eE314F8c655E354234017bE2193C9E24E",
+											"owner_type": "contract",
+											"dev_malicious": "0"
+										},
+										"security_risks": {
+											"is_honeypot": "0",
+											"hidden_owner": "0",
+											"self_destruct": "0",
+											"unlimited_mintable": "1"
+										},
+										"token_market": {
+											"holders_count": "1870482",
+											"owner_token_percent": "0.0024",
+											"holders_concentration": {
+												"top1_eoa_concentration": "0.0017",
+												"top5_eoa_concentration": "0.0017"
+											}
+										},
+										"trade_analysis": {
+											"sell_tax": "0.0000",
+											"transfer_tax": "0.0000"
+										},
+										"transfer_restrictions": {
+											"is_anti_whale": "0",
+											"transfer_pausable": "0",
+											"transfer_blacklist": "0"
+										},
+										"threat_intelligence": {
+											"risk_level": "0",
+											"trust_level": "3"
+										},
+										"scanned_time": 1766092636
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized - Invalid API key",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v2/hashdit/transaction-security": {
+			"post": {
+				"summary": "Transaction Security",
+				"description": "Analyzes a blockchain transaction before / after execution to identify security risks. The API inspects transaction calldata, detects dangerous patterns (e.g. unlimited approvals), evaluates dApp and domain reputation, and returns an overall risk score with detailed explanations. This endpoint is designed for wallets, signing flows, and transaction confirmation screens.",
+				"operationId": "transactionSecurity",
+				"parameters": [
+					{
+						"name": "X-API-KEY",
+						"in": "header",
+						"description": "Your HashDit API key",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					
+					{
+						"name": "Content-Type",
+						"in": "header",
+						"description": "Must be set to application/json",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"default": "application/json"
+						}
+					},
+					{
+						"name": "X-DITING-API-DEBUG",
+						"in": "header",
+						"description": "Optional debug flag (1 enables verbose analysis)",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"enum": ["0", "1"]
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Transaction to analyze",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TransactionSecurityRequest"
+							},
+							"example": {
+								"chainId": "56",
+								"from": "0xB59274D0468eA82Dc48De42488b5dfA5F7fb4A06",
+								"to": "0x12BB890508c125661E03b09EC06E404bc9289040",
+								"data": "0x095ea7b3...",
+								"nonce": 6,
+								"value": 0,
+								"type": 2,
+								"gas": 340800,
+								"maxFeePerGas": 3497787365,
+								"maxPriorityFeePerGas": 1000000000,
+								"dappUrl": "https://mov-ai.com/eh?hello=ke"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TransactionSecurityResponse"
+								},
+								"example": {
+									"chain": "bsc",
+									"from": "0xb59274d0468ea82dc48de42488b5dfa5f7fb4a06",
+									"to": "0x12bb890508c125661e03b09ec06e404bc9289040",
+									"function": "approve(address,uint256)",
+									"params": {
+										"0": "0x0000000000001fF3684f28c67538d4D072C22734",
+										"1": 1.157920892373162e+77
+									},
+									"overall_risk": 5,
+									"risk_description": "Critical Risk",
+									"risk_details": [
+										{
+											"name": "unlimited_approval",
+											"risk": 3,
+											"risk_name": "Medium Risk",
+											"description": "Unlimited token approval detected."
+										},
+										{
+											"name": "is_in_blist",
+											"risk": 5,
+											"risk_name": "Critical Risk",
+											"description": "There are potential risks in the dApp based on the threat intelligence."
+										}
+									],
+									"scanned_time": 1766097400,
+									"status": {
+										"domain_security": "completed",
+										"tx_security": "completed"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized - Invalid API key",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"components": {
@@ -1284,7 +1527,7 @@
 					},
 					"value": {
 						"type": "string",
-						"description": "Native token value (in wei).",
+						"description": "Native token value. Measured in wei.",
 						"example": "0"
 					},
 					"gas_limit": {
@@ -1653,7 +1896,7 @@
 					"total_holders": {
 						"type": "string",
 						"description": "Total number of token holders.",
-				
+						"example": "5717115"
 					},
 					"top1_concentration": {
 						"type": "string",
@@ -1689,6 +1932,429 @@
 						"type": "string",
 						"description": "Total 24-hour trading volume in USD.",
 						"example": "1147949703.936499"
+					}
+				}
+			},
+			"TokenSecurityRequest": {
+				"type": "object",
+				"required": ["chainId", "address"],
+				"properties": {
+					"chainId": {
+						"type": "string",
+						"description": "Blockchain chain ID (e.g. 56 for BNB Smart Chain).",
+						"enum": ["1", "56"]
+					},
+					"address": {
+						"type": "string",
+						"description": "Token contract address.",
+						"example": "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82"
+					}
+				}
+			},
+			"TokenSecurityResponse": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "string",
+						"description": "API result code. \"0\" indicates success.",
+						"example": "0"
+					},
+					"status": {
+						"type": "string",
+						"description": "Request status.",
+						"example": "ok"
+					},
+					"data": {
+						"$ref": "#/components/schemas/TokenSecurityData"
+					}
+				}
+			},
+			"TokenSecurityData": {
+				"type": "object",
+				"properties": {
+					"address": {
+						"type": "string",
+						"description": "Fully qualified token address with chain prefix.",
+						"example": "bsc:0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+					},
+					"address_type": {
+						"type": "string",
+						"description": "Token standard.",
+						"example": "ERC20"
+					},
+					"overall_risk_level": {
+						"type": "string",
+						"description": "Overall risk summary.",
+						"enum": ["No Obvious Risk", "Low Risk", "Medium Risk", "High Risk", "Significant Risk"]
+					},
+					"overall_score": {
+						"type": "string",
+						"description": "Overall security score (0–100). Lower values indicate higher risk."
+	
+					},
+					"basic_info": {
+						"$ref": "#/components/schemas/BasicTokenInfo"
+					},
+					"privileges": {
+						"$ref": "#/components/schemas/TokenPrivileges"
+					},
+					"security_risks": {
+						"$ref": "#/components/schemas/SecurityRisks"
+					},
+					"token_market": {
+						"$ref": "#/components/schemas/TokenMarket"
+					},
+					"trade_analysis": {
+						"$ref": "#/components/schemas/TradeAnalysis"
+					},
+					"transfer_restrictions": {
+						"$ref": "#/components/schemas/TransferRestrictions"
+					},
+					"threat_intelligence": {
+						"$ref": "#/components/schemas/ThreatIntelligence"
+					},
+					"scanned_time": {
+						"type": "number",
+						"description": "Unix timestamp of the latest scan.",
+						"example": 1766092636
+					}
+				}
+			},
+			"BasicTokenInfo": {
+				"type": "object",
+				"properties": {
+					"token_name": {
+						"type": "string",
+						"description": "Token name.",
+						"example": "PancakeSwap Token"
+					},
+					"token_symbol": {
+						"type": "string",
+						"description": "Token symbol.",
+						"example": "Cake"
+					},
+					"token_decimals": {
+						"type": "string",
+						"description": "Token decimals.",
+						"example": "18"
+					},
+					"days_deployed": {
+						"type": "string",
+						"description": "Number of days since deployment."
+					},
+					"is_mintable": {
+						"type": "string",
+						"description": "Indicates whether new tokens can be minted.",
+						"enum": ["0", "1"]
+					},
+					"is_in_dex": {
+						"type": "string",
+						"description": "Token is listed on a DEX.",
+						"enum": ["0", "1"]
+					},
+					"verified": {
+						"type": "string",
+						"description": "Contract verification status.",
+						"enum": ["0", "1"]
+					}
+				}
+			},
+			"TokenPrivileges": {
+				"type": "object",
+				"properties": {
+					"owner_address": {
+						"type": "string",
+						"description": "Contract owner address.",
+						"example": "0x73feaa1eE314F8c655E354234017bE2193C9E24E"
+					},
+					"owner_type": {
+						"type": "string",
+						"description": "Owner type.",
+						"enum": ["contract", "EOA"]
+					},
+					"dev_malicious": {
+						"type": "string",
+						"description": "Developer risk indicator.",
+						"enum": ["0", "1"]
+					}
+				}
+			},
+			"SecurityRisks": {
+				"type": "object",
+				"properties": {
+					"is_honeypot": {
+						"type": "string",
+						"description": "Indicates honeypot behaviour. A honeypot is a type of malicious smart contract designed to lure users into interacting with it under false pretenses. It appears to allow certain profitable actions (like buying or withdrawing tokens), but when users try to perform other actions (such as selling or transferring tokens), they are blocked or lose their funds.",
+						"enum": ["0", "1"]
+					},
+					"hidden_owner": {
+						"type": "string",
+						"description": "Ownership obfuscation detection. Hidden owner means the identity of the owner (or priviledged addresses) is not easily identifiable, in order to deceive users.",
+						"enum": ["0", "1"]
+					},
+					"self_destruct": {
+						"type": "string",
+						"description": "Contract self-destruct capability. A self-destruct feature allows the contract owner to permanently delete the contract and its associated funds, rendering it permanently inactive.",
+						"enum": ["0", "1"]
+					},
+					"unlimited_mintable": {
+						"type": "string",
+						"description": "Unlimited minting capability. An unlimited minting feature allows the contract owner to mint an unlimited number of tokens, regardless of the total supply.",
+						"enum": ["0", "1"]
+					}
+				}
+			},
+			"TokenMarket": {
+				"type": "object",
+				"properties": {
+					"holders_count": {
+						"type": "string",
+						"description": "Total number of token holders.",
+						"example": "1870482"
+					},
+					"owner_token_percent": {
+						"type": "string",
+						"description": "Percentage of tokens owned by the contract owner. E.g. 0.17 means 17%",
+						"example": "0.17"
+					},
+					"holders_concentration": {
+						"$ref": "#/components/schemas/HoldersConcentrationEVM"
+					}
+				}
+			},
+			"HoldersConcentrationEVM": {
+				"type": "object",
+				"properties": {
+					"top1_eoa_concentration": {
+						"type": "string",
+						"description": "Percentage of supply held by top 1 EOA holder. E.g. 0.17 means 17%",
+						"example": "0.17"
+					},
+					"top5_eoa_concentration": {
+						"type": "string",
+						"description": "Percentage of supply held by top 5 EOA holders. E.g. 0.17 means 17%",
+						"example": "0.17"
+					}
+				}
+			},
+			"TradeAnalysis": {
+				"type": "object",
+				"properties": {
+					"sell_tax": {
+						"type": "string",
+						"description": "The amount of percentage tax charged when selling tokens. E.g. 0.01 means 1%",
+						"example": "0.01"
+					},
+					"buy_tax": {
+						"type": "string",
+						"description": "The amount of percentage tax charged when buying tokens. E.g. 0.01 means 1%",
+						"example": "0.01"
+					},
+					"transfer_tax": {
+						"type": "string",
+						"description": "The amount of percentage tax charged when transferring tokens. E.g. 0.01 means 1%",
+						"example": "0.01"
+					}
+				}
+			},
+			"TransferRestrictions": {
+				"type": "object",
+				"properties": {
+					"is_anti_whale": {
+						"type": "string",
+						"description": "Indicates whether anti-whale restrictions are in place. Anti-whale restrictions are designed to prevent large holders from dominating the market and manipulating prices.",
+						"enum": ["0", "1"]
+					},
+					"transfer_pausable": {
+						"type": "string",
+						"description": "Indicates whether a privileged address can pause token transfers.",
+						"enum": ["0", "1"]
+					},
+					"transfer_blacklist": {
+						"type": "string",
+						"description": "Indicates whether a privileged address can blacklist other addresses from transferring tokens.",
+						"enum": ["0", "1"]
+					}
+				}
+			},
+			"TransactionSecurityRequest": {
+				"type": "object",
+				"required": ["chainId", "from", "to", "data", "nonce", "value", "gas"],
+				"properties": {
+					"chainId": {
+						"type": "string",
+						"description": "Blockchain chain ID (e.g. 56 for BNB Smart Chain).",
+						"enum": ["1", "56"]
+					},
+					"from": {
+						"type": "string",
+						"description": "Sender address.",
+						"example": "0xB59274D0468eA82Dc48De42488b5dfA5F7fb4A06"
+					},
+					"to": {
+						"type": "string",
+						"description": "Target contract address or recipient address.",
+						"example": "0x12BB890508c125661E03b09EC06E404bc9289040"
+					},
+					"data": {
+						"type": "string",
+						"description": "Hex-encoded transaction calldata.",
+						"example": "0x095ea7b3..."
+					},
+					"nonce": {
+						"type": "number",
+						"description": "Transaction nonce.",
+						"example": 6
+					},
+					"value": {
+						"type": "number",
+						"description": "Native token value. Measured in wei.",
+						"example": 0
+					},
+					"type": {
+						"type": "number",
+						"description": "Transaction type. E.g. 2 for EIP-1559.",
+						"enum": [0, 2]
+					},
+					"gas": {
+						"type": "number",
+						"description": "Gas limit.",
+						"example": 340800
+					},
+					"maxFeePerGas": {
+						"type": "number",
+						"description": "Max fee per gas (EIP-1559).",
+						"example": 3497787365
+					},
+					"maxPriorityFeePerGas": {
+						"type": "number",
+						"description": "Priority fee per gas (EIP-1559).",
+						"example": 1000000000
+					},
+					"dappUrl": {
+						"type": "string",
+						"description": "Originating dApp URL for domain risk analysis.",
+						"example": "https://mov-ai.com/eh?hello=ke"
+					}
+				}
+			},
+			"TransactionSecurityResponse": {
+				"type": "object",
+				"properties": {
+					"chain": {
+						"type": "string",
+						"description": "Blockchain identifier.",
+						"example": "bsc"
+					},
+					"from": {
+						"type": "string",
+						"description": "Sender address.",
+						"example": "0xb59274d0468ea82dc48de42488b5dfa5f7fb4a06"
+					},
+					"to": {
+						"type": "string",
+						"description": "Target contract address or recipient address.",
+						"example": "0x12bb890508c125661e03b09ec06e404bc9289040"
+					},
+					"function": {
+						"type": "string",
+						"description": "Decoded function signature.",
+						"example": "approve(address,uint256)"
+					},
+					"params": {
+						"type": "object",
+						"description": "Decoded function parameters.",
+						"example": {
+							"0": "0x0000000000001fF3684f28c67538d4D072C22734",
+							"1": 1.157920892373162e+77
+						}
+					},
+					"value": {
+						"type": "number",
+						"description": "Native token value. Measured in wei.",
+						"example": 0
+					},
+					"gas_used": {
+						"type": "number",
+						"description": "Gas used (if simulated)."
+					},
+					"overall_risk": {
+						"type": "number",
+						"description": "Overall risk score (0-5). Higher values indicate higher risk.",
+						"enum": ["0", "1", "2", "3", "4", "5"]
+					},
+					"risk_description": {
+						"type": "string",
+						"description": "Human-readable risk level (e.g. Critical Risk).",
+						"example": "Critical Risk"
+					},
+					"risk_details": {
+						"type": "array",
+						"description": "Detailed list of detected risks.",
+						"items": {
+							"$ref": "#/components/schemas/RiskDetailItem"
+						}
+					},
+					"scanned_time": {
+						"type": "number",
+						"description": "Unix timestamp of analysis.",
+						"example": 1766097400
+					},
+					"status": {
+						"$ref": "#/components/schemas/TransactionSecurityStatus"
+					},
+					"url": {
+						"type": "string",
+						"description": "dApp URL used for domain analysis (if provided).",
+						"example": "https://mov-ai.com/eh?hello=ke"
+					}
+				}
+			},
+			"RiskDetailItem": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Risk identifier.",
+						"example": "unlimited_approval"
+					},
+					"value": {
+						"type": "string",
+						"description": "Associated value (address, string, etc.)."
+					},
+					"value_type": {
+						"type": "string",
+						"description": "Value type (e.g. address, string)."
+					},
+					"risk": {
+						"type": "number",
+						"description": "Risk severity score (0-5). Higher values indicate higher risk.",
+						"enum": ["0", "1", "2", "3", "4", "5"]
+					},
+					"risk_name": {
+						"type": "string",
+						"description": "Risk label (e.g. Medium Risk).",
+						"example": "Medium Risk"
+					},
+					"description": {
+						"type": "string",
+						"description": "User-facing explanation of the risk.",
+						"example": "Unlimited token approval detected."
+					}
+				}
+			},
+			"TransactionSecurityStatus": {
+				"type": "object",
+				"properties": {
+					"domain_security": {
+						"type": "string",
+						"description": "Domain analysis status.",
+						"enum": ["completed", "in_progress", "failed"]
+					},
+					"tx_security": {
+						"type": "string",
+						"description": "Transaction analysis status.",
+						"enum": ["completed", "in_progress", "failed"]
 					}
 				}
 			},
