@@ -1,98 +1,86 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: 'Introduction'
+description: 'Get started with the HashDit API for domain security analysis'
 ---
 
-## Setting up
+## Welcome
 
-Get your documentation site up and running in minutes.
+The HashDit API provides threat intelligence for analyzing domains and URLs for potential security risks. Use the API to check domains and receive detailed risk assessments with severity scores and indicators.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+## Authentication
 
-## Make it yours
+All API endpoints require authentication using an API key passed in the `X-API-KEY` header.
 
-Design a docs site that looks great and empowers your users.
+<Warning>
+Keep your API key secure and never expose it in client-side code or public repositories.
+</Warning>
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
+## Base URL
 
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+All API requests should be made to:
 
-## Create beautiful pages
+```
+https://service.hashdit.io
+```
 
-Everything you need to create world-class documentation.
+## Getting started
+
+To get started with the HashDit API:
+
+1. Obtain your API key from the HashDit team
+2. Include your API key in the `X-API-KEY` header for all requests
+3. Make requests to the appropriate endpoint with the required parameters
+
+## API Endpoints
 
 <Columns cols={2}>
   <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
+    title="Address Classification"
+    icon="address-card"
+    href="/api-reference/endpoint/address-classify"
   >
-    Use MDX to style your docs pages.
+    Classify blockchain addresses by type and behavior
   </Card>
   <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
+    title="Address Security v2"
+    icon="shield-halved"
+    href="/api-reference/endpoint/address-security-v2"
   >
-    Add sample code to demonstrate how to use your product.
+    Perform in-depth security analysis of blockchain addresses
   </Card>
   <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
+    title="Domain Security"
+    icon="shield"
+    href="/api-reference/endpoint/domain-security"
   >
-    Display images and other media.
+    Analyze domains and URLs for security risks
   </Card>
   <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
+    title="Solana Token Security"
+    icon="coins"
+    href="/api-reference/endpoint/solana-token-security"
   >
-    Write once and reuse across your docs.
+    Comprehensive security assessment for Solana tokens
+  </Card>
+  <Card
+    title="Token Security"
+    icon="coins"
+    href="/api-reference/endpoint/token-security"
+  >
+    Security and market analysis for EVM-compatible tokens
+  </Card>
+  <Card
+    title="Transaction Security"
+    icon="lock"
+    href="/api-reference/endpoint/transaction-security"
+  >
+    Analyze transactions for security risks before execution
+  </Card>
+  <Card
+    title="Transaction Simulation"
+    icon="flask"
+    href="/api-reference/endpoint/txn-simulation"
+  >
+    Simulate EVM transactions without broadcasting on-chain
   </Card>
 </Columns>
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
-

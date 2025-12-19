@@ -2213,7 +2213,7 @@
 					},
 					"type": {
 						"type": "number",
-						"description": "Transaction type. E.g. 2 for EIP-1559.",
+						"description": "Transaction type. E.g. 0 for legacy transactions, 2 for EIP-1559.",
 						"enum": [0, 2]
 					},
 					"gas": {
@@ -2349,12 +2349,12 @@
 					"domain_security": {
 						"type": "string",
 						"description": "Domain analysis status.",
-						"enum": ["completed", "in_progress", "failed"]
+						"enum": ["completed", "in_progress", "error"]
 					},
 					"tx_security": {
 						"type": "string",
 						"description": "Transaction analysis status.",
-						"enum": ["completed", "in_progress", "failed"]
+						"enum": ["completed", "in_progress", "error"]
 					}
 				}
 			},
