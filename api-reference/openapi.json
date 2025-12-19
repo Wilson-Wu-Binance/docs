@@ -335,6 +335,13 @@
 								"$ref": "#/components/schemas/AddressSecurityV2Request"
 							},
 							"examples": {
+								"Externally Owned Address": {
+									"summary": "EOA (Externally Owned Address) example",
+									"value": {
+										"chainId": "56",
+										"address": "0x56306851238d7aee9fac8cdd6877e92f83d5924c"
+									}
+								},
 								"Contract": {
 									"summary": "Contract address example",
 									"value": {
@@ -342,11 +349,11 @@
 										"address": "0x73feaa1ee314f8c655e354234017be2193c9e24e"
 									}
 								},
-								"Externally Owned Address": {
-									"summary": "EOA (Externally Owned Address) example",
+								"ERC-20": {
+									"summary": "ERC-20 token example",
 									"value": {
 										"chainId": "56",
-										"address": "0x56306851238d7aee9fac8cdd6877e92f83d5924c"
+										"address": "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82"
 									}
 								}
 							}
@@ -462,6 +469,58 @@
 													"is_proxy": "",
 													"proxy_implementation_verified": "",
 													"verified": ""
+												}
+											}
+										}
+									},
+									"ERC-20": {
+										"summary": "ERC-20 token response",
+										"value": {
+											"code": "0",
+											"status": "ok",
+											"data": {
+												"address": "bsc:0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
+												"address_type": "ERC20",
+												"market": {
+													"days_deployed": "1913",
+													"low_activity": "0"
+												},
+												"overall_risk_level": "No Obvious Risk",
+												"overall_score": "90",
+												"privilege": {
+													"has_hidden_owner": "0",
+													"has_trade_limitation": "0",
+													"overpowered_function": "1",
+													"owner_type": "contract"
+												},
+												"rugpull": {
+													"code_obfuscation": "0",
+													"has_backdoor": "0",
+													"has_migrator": "",
+													"is_honeypot": "0",
+													"is_known_rugpull": "",
+													"is_metamorphic": "0",
+													"is_ponzi": "0"
+												},
+												"scanned_time": 1766061486,
+												"security": {
+													"has_external_calls": "0",
+													"has_insecure_code_practice": "0",
+													"has_known_vulnerability": "0",
+													"malicious_activity": "0",
+													"risky_external_calls": "0"
+												},
+												"status": 200,
+												"threat_intelligence": {
+													"risk_level": "0",
+													"trust_level": "3"
+												},
+												"transparency": {
+													"can_self_destruct": "0",
+													"dependency_unverified": "0",
+													"is_proxy": "0",
+													"proxy_implementation_verified": "",
+													"verified": "1"
 												}
 											}
 										}
@@ -727,7 +786,7 @@
 					},
 					"address_type": {
 						"type": "string",
-						"description": "Detected contract type (e.g. MasterChef).",
+						"description": "Detected contract type.",
 						"example": "MasterChef"
 					},
 					"market": {
@@ -736,12 +795,12 @@
 					"overall_risk_level": {
 						"type": "string",
 						"description": "Human-readable risk summary.",
-						"example": "No Obvious Risk"
+						"enum": ["No Obvious Risk", "Low Risk", "Medium Risk", "High Risk", "Significant Risk"]
 					},
 					"overall_score": {
 						"type": "string",
-						"description": "Overall security score (0-5). Higher values indicate higher risk.",
-						"example": "90"
+						"description": "Overall security score (0-100). Lower values indicate higher risk.",
+						
 					},
 					"privilege": {
 						"$ref": "#/components/schemas/PrivilegeAnalysis"
@@ -776,7 +835,7 @@
 					"days_deployed": {
 						"type": "string",
 						"description": "Number of days since deployment.",
-						"example": ""
+					
 					},
 					"low_activity": {
 						"type": "string",
@@ -891,14 +950,12 @@
 					"risk_level": {
 						"type": "string",
 						"description": "Threat intelligence risk score. 3 is the highest risk level.",
-						"minimum": 0,
-						"maximum": 3
+						"enum": ["0", "1", "2", "3"]
 					},
 					"trust_level": {
 						"type": "string",
 						"description": "Trust confidence level. 3 is the highest trust level.",
-						"minimum": 0,
-						"maximum": 3
+						"enum": ["0", "1", "2", "3"]
 					}
 				}
 			},
