@@ -25,12 +25,6 @@
             "group": "Endpoints",
             "pages": [
               {
-                "group": "Domain Security",
-                "pages": [
-                  "api-reference/endpoint/domain-security"
-                ]
-              },
-              {
                 "group": "Address Classification",
                 "pages": [
                   "api-reference/endpoint/address-classify",
@@ -42,6 +36,18 @@
                 "pages": [
                   "api-reference/endpoint/address-security-v2",
                   "api-reference/endpoint/address-security-v2/supported-chains"
+                ]
+              },
+              {
+                "group": "Domain Security",
+                "pages": [
+                  "api-reference/endpoint/domain-security"
+                ]
+              },
+              {
+                "group": "Solana Token Security",
+                "pages": [
+                  "api-reference/endpoint/solana-token-security"
                 ]
               },
               {
@@ -63,12 +69,6 @@
                 "pages": [
                   "api-reference/endpoint/txn-simulation",
                   "api-reference/endpoint/txn-simulation/supported-chains"
-                ]
-              },
-              {
-                "group": "Solana Token Security",
-                "pages": [
-                  "api-reference/endpoint/solana-token-security"
                 ]
               }
             ]

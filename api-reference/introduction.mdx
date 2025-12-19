@@ -27,14 +27,60 @@ https://service.hashdit.io
 
 To get started with the HashDit API:
 
-1. Obtain your API key from the HashDit dashboard
+1. Obtain your API key from the HashDit team
 2. Include your API key in the `X-API-KEY` header for all requests
 3. Make requests to the appropriate endpoint with the required parameters
 
-<Card
-  title="Domain Security API"
-  icon="shield"
-  href="/api-reference/endpoint/domain-security"
->
-  Analyze domains and URLs for security risks
-</Card>
+## API Endpoints
+
+<Columns cols={2}>
+  <Card
+    title="Address Classification"
+    icon="address-card"
+    href="/api-reference/endpoint/address-classify"
+  >
+    Classify blockchain addresses by type and behavior
+  </Card>
+  <Card
+    title="Address Security v2"
+    icon="shield-halved"
+    href="/api-reference/endpoint/address-security-v2"
+  >
+    Perform in-depth security analysis of blockchain addresses
+  </Card>
+  <Card
+    title="Domain Security"
+    icon="shield"
+    href="/api-reference/endpoint/domain-security"
+  >
+    Analyze domains and URLs for security risks
+  </Card>
+  <Card
+    title="Solana Token Security"
+    icon="coins"
+    href="/api-reference/endpoint/solana-token-security"
+  >
+    Comprehensive security assessment for Solana tokens
+  </Card>
+  <Card
+    title="Token Security"
+    icon="coins"
+    href="/api-reference/endpoint/token-security"
+  >
+    Security and market analysis for EVM-compatible tokens
+  </Card>
+  <Card
+    title="Transaction Security"
+    icon="lock"
+    href="/api-reference/endpoint/transaction-security"
+  >
+    Analyze transactions for security risks before execution
+  </Card>
+  <Card
+    title="Transaction Simulation"
+    icon="flask"
+    href="/api-reference/endpoint/txn-simulation"
+  >
+    Simulate EVM transactions without broadcasting on-chain
+  </Card>
+</Columns>
