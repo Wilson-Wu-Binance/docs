@@ -1,13 +1,14 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "HashDit API Documentation",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
     "dark": "#15803D"
   },
   "favicon": "/favicon.svg",
+  "openapi": "/api-reference/openapi.json",
   "navigation": {
     "tabs": [
       {
@@ -53,16 +54,16 @@
           {
             "group": "API documentation",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/introduction",
+              "api-reference/supported-chains"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Endpoints",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/endpoint/domain-security",
+              "api-reference/endpoint/address-classify",
+              "api-reference/endpoint/address-security-v2"
             ]
           }
         ]

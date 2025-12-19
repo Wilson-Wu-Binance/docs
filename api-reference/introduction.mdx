@@ -1,33 +1,40 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Get started with the HashDit API for domain security analysis'
 ---
-
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+The HashDit API provides threat intelligence for analyzing domains and URLs for potential security risks. Use the API to check domains and receive detailed risk assessments with severity scores and indicators.
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints require authentication using an API key passed in the `X-API-KEY` header.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+<Warning>
+Keep your API key secure and never expose it in client-side code or public repositories.
+</Warning>
+
+## Base URL
+
+All API requests should be made to:
+
 ```
+https://service.hashdit.io
+```
+
+## Getting started
+
+To get started with the HashDit API:
+
+1. Obtain your API key from the HashDit dashboard
+2. Include your API key in the `X-API-KEY` header for all requests
+3. Make requests to the appropriate endpoint with the required parameters
+
+<Card
+  title="Domain Security API"
+  icon="shield"
+  href="/api-reference/endpoint/domain-security"
+>
+  Analyze domains and URLs for security risks
+</Card>

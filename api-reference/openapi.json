@@ -1,217 +1,962 @@
 {
-  "openapi": "3.1.0",
-  "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
-  "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
-      "post": {
-        "description": "Information about a new plant added to the store",
-        "requestBody": {
-          "description": "Plant added to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
-      }
-    }
-  }
+	"openapi": "3.1.0",
+	"info": {
+		"title": "HashDit API",
+		"description": "HashDit threat intelligence API for domain security analysis, blockchain address classification, and address security assessment",
+		"version": "2.0.0"
+	},
+	"servers": [
+		{
+			"url": "https://service.hashdit.io"
+		}
+	],
+	"paths": {
+		"/v2/hashdit/domain-security": {
+			"post": {
+				"summary": "Domain Security",
+				"description": "Checks a given domain or URL for potential security risks using HashDit threat intelligence. The API analyzes the provided URL and returns a risk level along with detailed indicators.",
+				"operationId": "domainSecurity",
+				"parameters": [
+					{
+						"name": "X-API-KEY",
+						"in": "header",
+						"description": "Your HashDit API key",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Domain or URL to analyze",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DomainSecurityRequest"
+							},
+							"examples": {
+								"Whitelisted Domain": {
+									"summary": "Safe domain example",
+									"value": {
+										"url": "https://binance.com/"
+									}
+								},
+								"Risky Domain": {
+									"summary": "Suspicious domain example",
+									"value": {
+										"url": "https://bnb-miner.com/"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DomainSecurityResponse"
+								},
+								"examples": {
+									"Whitelisted Domain": {
+										"summary": "Safe domain response",
+										"value": {
+											"code": "0",
+											"status": "ok",
+											"data": {
+												"request_id": "85cb060e-75cf-4d75-887f-c23f2fc45106",
+												"has_result": true,
+												"polling_interval": 0,
+												"risk_level": 0,
+												"risk_detail": [
+													{
+														"name": "is_in_wlist",
+														"value": "The dApp is relatively safe based on the threat intelligence."
+													}
+												]
+											}
+										}
+									},
+									"Risky Domain": {
+										"summary": "Risky domain response",
+										"value": {
+											"code": "0",
+											"status": "ok",
+											"data": {
+												"request_id": "92db171f-86dg-5e86-998g-d34g3gd56217",
+												"has_result": true,
+												"polling_interval": 0,
+												"risk_level": 3,
+												"risk_detail": [
+													{
+														"name": "is_in_blist",
+														"value": "There are potential risks in the dApp based on the threat intelligence."
+													}
+												]
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized - Invalid API key",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v2/hashdit/address-classify": {
+			"post": {
+				"summary": "Address Classification",
+				"description": "Classifies a blockchain address by type and behavior. The API identifies whether an address is an externally owned account (EOA) or contract, determines contract characteristics (e.g. proxy patterns), and provides verification and token standard metadata.",
+				"operationId": "addressClassify",
+				"parameters": [
+					{
+						"name": "X-API-Key",
+						"in": "header",
+						"description": "Your HashDit API key",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Blockchain address to classify",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AddressClassifyRequest"
+							},
+							"examples": {
+								"ERC-20 Token": {
+									"summary": "ERC20 token example",
+									"value": {
+										"chainId": "56",
+										"address": "0x55d398326f99059ff775485246999027b3197955"
+									}
+								},
+								"Proxy Contract": {
+									"summary": "Proxy contract example",
+									"value": {
+										"chainId": "56",
+										"address": "0x40af3827F39D0EAcBF4A168f8D4ee67c121D11c9"
+									}
+								},
+								"Externally Owned Address": {
+									"summary": "EOA (Externally Owned Address) example",
+									"value": {
+										"chainId": "56",
+										"address": "0x000000000000000000000000000000000000dead"
+									}
+								},
+								"Unverified Contract": {
+									"summary": "Unverified contract example",
+									"value": {
+										"chainId": "56",
+										"address": "0x6ce880bd41b0da78eb94da063e9a6b2fd5d721a9"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AddressClassifyResponse"
+								},
+								"examples": {
+									"ERC-20 Token": {
+										"summary": "ERC20 token response",
+										"value": {
+											"code": "0",
+											"status": "ok",
+											"data": {
+												"address": "bsc:0x55d398326f99059ff775485246999027b3197955",
+												"address_type": "Contract",
+												"classification": "ERC20",
+												"classification_id": 101,
+												"details": {
+													"is_verified": true,
+													"proxy_impl_address": "",
+													"proxy_impl_type": ""
+												},
+												"is_erc20": "1",
+												"scanned_time": 1766048799,
+												"status": 200,
+												"timestamp": "2025-12-18T09:06:43.166765",
+												"verify_status": "verified"
+											}
+										}
+									},
+									"Proxy Contract": {
+										"summary": "Proxy contract response",
+										"value": {
+											"code": "0",
+											"status": "ok",
+											"data": {
+												"address": "bsc:0x40af3827f39d0eacbf4a168f8d4ee67c121d11c9",
+												"address_type": "Contract",
+												"classification": "Proxy",
+												"classification_id": 5,
+												"details": {
+													"is_verified": true,
+													"proxy_impl_address": "0x0d7adc70a18a5aef0bd6ecb098e1da0244c57711",
+													"proxy_impl_type": "ERC20"
+												},
+												"is_erc20": "1",
+												"scanned_time": 1763479290,
+												"status": 200,
+												"timestamp": "2025-11-18T15:21:34.616086",
+												"verify_status": "verified"
+											}
+										}
+									},
+									"Externally Owned Address": {
+										"summary": "EOA (Externally Owned Address) response",
+										"value": {
+											"code": "0",
+											"status": "ok",
+											"data": {
+												"address": "bsc:0x000000000000000000000000000000000000dead",
+												"address_type": "EOA",
+												"classification": "EOA",
+												"classification_id": -1,
+												"details": {
+													"is_verified": false,
+													"proxy_impl_address": "",
+													"proxy_impl_type": ""
+												},
+												"is_erc20": "0",
+												"scanned_time": 1763166063,
+												"status": 200,
+												"timestamp": "2025-11-15T00:21:08.740209"
+											}
+										}
+									},
+									"Unverified Contract": {
+										"summary": "Unverified contract response",
+										"value": {
+											"code": "0",
+											"status": "ok",
+											"data": {
+												"address": "bsc:0x6ce880bd41b0da78eb94da063e9a6b2fd5d721a9",
+												"address_type": "Contract",
+												"classification": "Unverified",
+												"classification_id": 2,
+												"details": {
+													"is_verified": false,
+													"proxy_impl_address": "",
+													"proxy_impl_type": ""
+												},
+												"is_erc20": "0",
+												"scanned_time": 1766103184,
+												"status": 200,
+												"timestamp": "2025-12-19T00:13:08.908724",
+												"verify_status": "unverified"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized - Invalid API key",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v2/hashdit/address-security-v2": {
+			"post": {
+				"summary": "Address Security v2",
+				"description": "Performs an in-depth security analysis of a blockchain address. The API evaluates contract behavior, privilege controls, rug pull indicators, market signals, code security practices, transparency, and threat intelligence to produce an overall risk assessment.",
+				"operationId": "addressSecurityV2",
+				"parameters": [
+					{
+						"name": "X-API-Key",
+						"in": "header",
+						"description": "Your HashDit API key",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Blockchain address to analyze",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AddressSecurityV2Request"
+							},
+							"examples": {
+								"Contract": {
+									"summary": "Contract address example",
+									"value": {
+										"chainId": "56",
+										"address": "0x73feaa1ee314f8c655e354234017be2193c9e24e"
+									}
+								},
+								"Externally Owned Address": {
+									"summary": "EOA (Externally Owned Address) example",
+									"value": {
+										"chainId": "56",
+										"address": "0x56306851238d7aee9fac8cdd6877e92f83d5924c"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AddressSecurityV2Response"
+								},
+								"examples": {
+									"Contract": {
+										"summary": "Contract address response",
+										"value": {
+											"code": "0",
+											"status": "ok",
+											"data": {
+												"address": "bsc:0x73feaa1ee314f8c655e354234017be2193c9e24e",
+												"address_type": "MasterChef",
+												"market": {
+													"low_activity": "0",
+													"newly_deployed": "0"
+												},
+												"overall_risk_level": "No Obvious Risk",
+												"overall_score": "90",
+												"privilege": {
+													"has_hidden_owner": "0",
+													"has_trade_limitation": "0",
+													"overpowered_function": "0",
+													"owner_type": "contract"
+												},
+												"rugpull": {
+													"code_obfuscation": "0",
+													"has_backdoor": "0",
+													"has_migrator": "1",
+													"is_honeypot": "",
+													"is_known_rugpull": "",
+													"is_metamorphic": "0",
+													"is_ponzi": "0"
+												},
+												"scanned_time": 1764270688,
+												"security": {
+													"has_external_calls": "1",
+													"has_insecure_code_practice": "1",
+													"has_known_vulnerability": "0",
+													"malicious_activity": "0",
+													"risky_external_calls": "0"
+												},
+												"status": 200,
+												"threat_intelligence": {
+													"risk_level": "0",
+													"trust_level": "3"
+												},
+												"transparency": {
+													"can_self_destruct": "0",
+													"dependency_unverified": "0",
+													"is_proxy": "0",
+													"proxy_implementation_verified": "",
+													"verified": "1"
+												}
+											}
+										}
+									},
+									"Externally Owned Address": {
+										"summary": "EOA (Externally Owned Address) response",
+										"value": {
+											"code": "0",
+											"status": "ok",
+											"data": {
+												"address": "bsc:0x56306851238d7aee9fac8cdd6877e92f83d5924c",
+												"address_type": "EOA",
+												"market": {
+													"days_deployed": "",
+													"low_activity": ""
+												},
+												"overall_risk_level": "No Obvious Risk",
+												"overall_score": "100",
+												"privilege": {
+													"has_hidden_owner": "",
+													"has_trade_limitation": "",
+													"overpowered_function": "",
+													"owner_type": ""
+												},
+												"rugpull": {
+													"code_obfuscation": "",
+													"has_backdoor": "",
+													"has_migrator": "",
+													"is_honeypot": "",
+													"is_known_rugpull": "",
+													"is_metamorphic": "",
+													"is_ponzi": ""
+												},
+												"scanned_time": 1766104456,
+												"security": {
+													"has_external_calls": "",
+													"has_insecure_code_practice": "",
+													"has_known_vulnerability": "",
+													"malicious_activity": "",
+													"risky_external_calls": ""
+												},
+												"status": 200,
+												"threat_intelligence": {
+													"risk_level": "0",
+													"trust_level": "0"
+												},
+												"transparency": {
+													"can_self_destruct": "",
+													"dependency_unverified": "",
+													"is_proxy": "",
+													"proxy_implementation_verified": "",
+													"verified": ""
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized - Invalid API key",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"DomainSecurityRequest": {
+				"type": "object",
+				"required": ["url"],
+				"properties": {
+					"url": {
+						"type": "string",
+						"description": "The full domain or URL to be analyzed.",
+						"example": "https://binance.com/"
+					}
+				}
+			},
+			"DomainSecurityResponse": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "string",
+						"description": "API status code. \"0\" indicates success.",
+						"example": "0"
+					},
+					"status": {
+						"type": "string",
+						"description": "Request status (ok or error).",
+						"example": "ok"
+					},
+					"data": {
+						"$ref": "#/components/schemas/DomainSecurityData"
+					}
+				}
+			},
+			"DomainSecurityData": {
+				"type": "object",
+				"properties": {
+					"request_id": {
+						"type": "string",
+						"description": "Unique identifier for this request.",
+						"example": "85cb060e-75cf-4d75-887f-c23f2fc45106"
+					},
+					"has_result": {
+						"type": "boolean",
+						"description": "Indicates whether the analysis result is immediately available.",
+						"example": true
+					},
+					"polling_interval": {
+						"type": "number",
+						"description": "Polling interval in seconds if results are not immediately available.",
+						"example": 0
+					},
+					"risk_level": {
+						"type": "number",
+						"description": "Risk severity score (0-5). Higher values indicate higher risk.",
+						"minimum": 0,
+						"maximum": 5,
+						"example": 0
+					},
+					"risk_detail": {
+						"type": "array",
+						"description": "Detailed list of detected risk indicators.",
+						"items": {
+							"$ref": "#/components/schemas/RiskDetail"
+						}
+					}
+				}
+			},
+			"RiskDetail": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Risk category identifier.",
+
+						"enum": ["is_in_wlist", "is_in_blist"]
+					},
+					"value": {
+						"type": "string",
+						"description": "Human-readable explanation of the risk.",
+						"enum": [
+							"The dApp is relatively safe based on the threat intelligence.",
+							"There are potential risks in the dApp based on the threat intelligence."
+						]
+					}
+				}
+			},
+			"AddressClassifyRequest": {
+				"type": "object",
+				"required": ["chainId", "address"],
+				"properties": {
+					"chainId": {
+						"type": "string",
+						"description": "Blockchain chain ID. Example: 1 for Ethereum",
+
+						"enum": ["1", "56"]
+					},
+					"address": {
+						"type": "string",
+						"description": "The blockchain address to classify.",
+						"example": "0x01bff41798a0bcf287b996046ca68b395dbc1071"
+					}
+				}
+			},
+			"AddressClassifyResponse": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "string",
+						"description": "API status code. \"0\" indicates success.",
+						"example": "0"
+					},
+					"status": {
+						"type": "string",
+						"description": "Request status.",
+						"example": "ok"
+					},
+					"data": {
+						"$ref": "#/components/schemas/AddressClassifyData"
+					}
+				}
+			},
+			"AddressClassifyData": {
+				"type": "object",
+				"properties": {
+					"address": {
+						"type": "string",
+						"description": "Fully qualified address with chain prefix.",
+						"example": "bsc:0x01bff41798a0bcf287b996046ca68b395dbc1071"
+					},
+					"address_type": {
+						"type": "string",
+						"description": "Address category.",
+						"enum": ["Contract", "EOA"]
+					},
+					"classification": {
+						"type": "string",
+						"description": "High-level contract classification.",
+						"enum": ["ERC20", "Proxy", "Verified", "Unverified"]
+					},
+					"classification_id": {
+						"type": "number",
+						"description": "Internal classification identifier."
+					},
+					"details": {
+						"$ref": "#/components/schemas/AddressClassifyDetails"
+					},
+					"is_erc20": {
+						"type": "string",
+						"description": "Indicates whether the contract follows the ERC-20 standard (1 = yes).",
+						"enum": ["1", "0"]
+					},
+					"scanned_time": {
+						"type": "number",
+						"description": "Unix timestamp when the address was last analyzed."
+					},
+					"status": {
+						"type": "number",
+						"description": "HTTP-style status code for the classification result."
+					},
+					"timestamp": {
+						"type": "string",
+						"description": "ISO 8601 timestamp of the last time when the result was updated.",
+						"example": "2025-12-18T09:08:44.067312"
+					},
+					"verify_status": {
+						"type": "string",
+						"description": "Verification status of the contract (e.g. verified).",
+						"enum": ["verified", "unverified"]
+					}
+				}
+			},
+			"AddressClassifyDetails": {
+				"type": "object",
+				"properties": {
+					"is_verified": {
+						"type": "boolean",
+						"description": "Whether the contract source code is verified.",
+						"example": true
+					},
+					"proxy_impl_address": {
+						"type": "string",
+						"description": "Implementation contract address if the contract is a proxy.",
+						"example": "0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb"
+					},
+					"proxy_impl_type": {
+						"type": "string",
+						"description": "Token or contract standard of the proxy implementation.",
+						"example": "ERC20"
+					}
+				}
+			},
+			"AddressSecurityV2Request": {
+				"type": "object",
+				"required": ["chainId", "address"],
+				"properties": {
+					"chainId": {
+						"type": "string",
+						"description": "Blockchain chain ID. Example: 56 for BNB Smart Chain.",
+						"enum": ["1", "56"]
+					},
+					"address": {
+						"type": "string",
+						"description": "The blockchain address to analyze.",
+						"example": "0x73feaa1ee314f8c655e354234017be2193c9e24e"
+					}
+				}
+			},
+			"AddressSecurityV2Response": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "string",
+						"description": "API status code. \"0\" indicates success.",
+						"example": "0"
+					},
+					"status": {
+						"type": "string",
+						"description": "Request status.",
+						"example": "ok"
+					},
+					"data": {
+						"$ref": "#/components/schemas/AddressSecurityV2Data"
+					}
+				}
+			},
+			"AddressSecurityV2Data": {
+				"type": "object",
+				"properties": {
+					"address": {
+						"type": "string",
+						"description": "Fully qualified address with chain prefix.",
+						"example": "bsc:0x73feaa1ee314f8c655e354234017be2193c9e24e"
+					},
+					"address_type": {
+						"type": "string",
+						"description": "Detected contract type (e.g. MasterChef).",
+						"example": "MasterChef"
+					},
+					"market": {
+						"$ref": "#/components/schemas/MarketIndicators"
+					},
+					"overall_risk_level": {
+						"type": "string",
+						"description": "Human-readable risk summary.",
+						"example": "No Obvious Risk"
+					},
+					"overall_score": {
+						"type": "string",
+						"description": "Overall security score (0-5). Higher values indicate higher risk.",
+						"example": "90"
+					},
+					"privilege": {
+						"$ref": "#/components/schemas/PrivilegeAnalysis"
+					},
+					"rugpull": {
+						"$ref": "#/components/schemas/RugPullIndicators"
+					},
+					"scanned_time": {
+						"type": "number",
+						"description": "Unix timestamp of the latest scan.",
+						"example": 1764270688
+					},
+					"security": {
+						"$ref": "#/components/schemas/SecurityAnalysis"
+					},
+					"status": {
+						"type": "number",
+						"description": "HTTP-style status code.",
+						"example": 200
+					},
+					"threat_intelligence": {
+						"$ref": "#/components/schemas/ThreatIntelligence"
+					},
+					"transparency": {
+						"$ref": "#/components/schemas/Transparency"
+					}
+				}
+			},
+			"MarketIndicators": {
+				"type": "object",
+				"properties": {
+					"days_deployed": {
+						"type": "string",
+						"description": "Number of days since deployment.",
+						"example": ""
+					},
+					"low_activity": {
+						"type": "string",
+						"description": "Indicates whether the address shows low on-chain activity.",
+						"enum": ["0", "1"]
+					},
+					"newly_deployed": {
+						"type": "string",
+						"description": "Indicates whether the contract was recently deployed.",
+						"enum": ["0", "1"]
+					}
+				}
+			},
+			"PrivilegeAnalysis": {
+				"type": "object",
+				"properties": {
+					"has_hidden_owner": {
+						"type": "string",
+						"description": "Whether ownership is obscured.",
+						"enum": ["0", "1"]
+					},
+					"has_trade_limitation": {
+						"type": "string",
+						"description": "Indicates trade restrictions.",
+						"enum": ["0", "1"]
+					},
+					"overpowered_function": {
+						"type": "string",
+						"description": "Presence of privileged or dangerous functions.",
+						"enum": ["0", "1"]
+					},
+					"owner_type": {
+						"type": "string",
+						"description": "Owner type.",
+						"enum": ["contract", "EOA"]
+					}
+				}
+			},
+			"RugPullIndicators": {
+				"type": "object",
+				"properties": {
+					"code_obfuscation": {
+						"type": "string",
+						"description": "Whether contract code is obfuscated.",
+						"enum": ["0", "1"]
+					},
+					"has_backdoor": {
+						"type": "string",
+						"description": "Indicates hidden backdoor logic.",
+						"enum": ["0", "1"]
+					},
+					"has_migrator": {
+						"type": "string",
+						"description": "Presence of migrator functionality.",
+						"enum": ["0", "1"]
+					},
+					"is_honeypot": {
+						"type": "string",
+						"description": "Whether the contract behaves as a honeypot.",
+						"enum": ["0", "1"]
+					},
+					"is_known_rugpull": {
+						"type": "string",
+						"description": "Known rug pull classification.",
+						"enum": ["0", "1"]
+					},
+					"is_metamorphic": {
+						"type": "string",
+						"description": "Indicates metamorphic contract behavior.",
+						"enum": ["0", "1"]
+					},
+					"is_ponzi": {
+						"type": "string",
+						"description": "Ponzi scheme indicators.",
+						"enum": ["0", "1"]
+					}
+				}
+			},
+			"SecurityAnalysis": {
+				"type": "object",
+				"properties": {
+					"has_external_calls": {
+						"type": "string",
+						"description": "Contract performs external calls.",
+						"enum": ["0", "1"]
+					},
+					"has_insecure_code_practice": {
+						"type": "string",
+						"description": "Indicates insecure coding patterns.",
+						"enum": ["0", "1"]
+					},
+					"has_known_vulnerability": {
+						"type": "string",
+						"description": "Known vulnerabilities detected.",
+						"enum": ["0", "1"]
+					},
+					"malicious_activity": {
+						"type": "string",
+						"description": "Evidence of malicious behavior.",
+						"enum": ["0", "1"]
+					},
+					"risky_external_calls": {
+						"type": "string",
+						"description": "Risky external call patterns detected.",
+						"enum": ["0", "1"]
+					}
+				}
+			},
+			"ThreatIntelligence": {
+				"type": "object",
+				"properties": {
+					"risk_level": {
+						"type": "string",
+						"description": "Threat intelligence risk score. 3 is the highest risk level.",
+						"minimum": 0,
+						"maximum": 3
+					},
+					"trust_level": {
+						"type": "string",
+						"description": "Trust confidence level. 3 is the highest trust level.",
+						"minimum": 0,
+						"maximum": 3
+					}
+				}
+			},
+			"Transparency": {
+				"type": "object",
+				"properties": {
+					"can_self_destruct": {
+						"type": "string",
+						"description": "Contract can self-destruct.",
+						"enum": ["0", "1"]
+					},
+					"dependency_unverified": {
+						"type": "string",
+						"description": "Dependencies are not verified.",
+						"enum": ["0", "1"]
+					},
+					"is_proxy": {
+						"type": "string",
+						"description": "Indicates proxy usage.",
+						"enum": ["0", "1"]
+					},
+					"proxy_implementation_verified": {
+						"type": "string",
+						"description": "Proxy implementation verification status.",
+						"enum": ["0", "1"]
+					},
+					"verified": {
+						"type": "string",
+						"description": "Contract verification status.",
+						"enum": ["0", "1"]
+					}
+				}
+			},
+			"ErrorResponse": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "string",
+						"description": "Error code"
+					},
+					"status": {
+						"type": "string",
+						"description": "Error status",
+						"example": "error"
+					},
+					"message": {
+						"type": "string",
+						"description": "Error message"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"apiKeyAuth": {
+				"type": "apiKey",
+				"in": "header",
+				"name": "X-API-KEY"
+			}
+		}
+	}
 }

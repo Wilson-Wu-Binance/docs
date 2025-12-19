@@ -1,0 +1,27 @@
+---
+title: 'Support Chains'
+---
+
+
+The HashDit API supports the following blockchain networks.
+
+| Network | Chain ID |
+|---------|----------|
+| Ethereum Mainnet | 1 |
+| Binance Smart Chain | 56 |
+
+<Info>
+When making API requests, use the chain ID as a string value (e.g., `"1"` for Ethereum Mainnet or `"56"` for Binance Smart Chain).
+</Info>
+
+## Usage
+
+Include the `chainId` parameter in your request body when calling address-related endpoints:
+
+```json
+{
+  "chainId": "1",
+  "address": "0x..."
+}
+```
+

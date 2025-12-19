@@ -1,0 +1,13 @@
+{
+  "name": "hashdit-docs",
+  "version": "1.0.0",
+  "description": "HashDit API Documentation",
+  "scripts": {
+    "dev": "mint dev",
+    "dev:watch": "nodemon --watch api-reference/openapi.json --watch docs.json --exec \"mint dev\" --ext json"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}
+
