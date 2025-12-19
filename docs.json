@@ -13,10 +13,10 @@
     "tabs": [
       
       {
-        "tab": "API reference",
+        "tab": "HashDit APIs",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "API Documentation",
             "pages": [
               "api-reference/introduction"
             ]
