@@ -3,51 +3,15 @@
   "theme": "mint",
   "name": "HashDit API Documentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#4063FF",
+    "light": "#4063FF",
+    "dark": "#4063FF"
   },
   "favicon": "/favicon.svg",
   "openapi": "/api-reference/openapi.json",
   "navigation": {
     "tabs": [
-      {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
+      
       {
         "tab": "API reference",
         "groups": [
@@ -63,30 +27,19 @@
             "pages": [
               "api-reference/endpoint/domain-security",
               "api-reference/endpoint/address-classify",
-              "api-reference/endpoint/address-security-v2"
+              "api-reference/endpoint/address-security-v2",
+              "api-reference/endpoint/txn-simulation",
+              "api-reference/endpoint/solana-token-security"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
+   
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/HashDitLogo.svg",
+    "dark": "/logo/HashDitLogo.svg"
   },
   "navbar": {
     "links": [
@@ -97,8 +50,8 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "HashDit.io",
+      "href": "https://www.hashdit.io"
     }
   },
   "contextual": {

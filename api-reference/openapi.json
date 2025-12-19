@@ -2,7 +2,7 @@
 	"openapi": "3.1.0",
 	"info": {
 		"title": "HashDit API",
-		"description": "HashDit threat intelligence API for domain security analysis, blockchain address classification, and address security assessment",
+		"description": "HashDit threat intelligence API for domain security analysis, blockchain address classification, address security assessment, transaction simulation, and Solana token security",
 		"version": "2.0.0"
 	},
 	"servers": [
@@ -335,18 +335,18 @@
 								"$ref": "#/components/schemas/AddressSecurityV2Request"
 							},
 							"examples": {
-								"Externally Owned Address": {
-									"summary": "EOA (Externally Owned Address) example",
-									"value": {
-										"chainId": "56",
-										"address": "0x56306851238d7aee9fac8cdd6877e92f83d5924c"
-									}
-								},
 								"Contract": {
 									"summary": "Contract address example",
 									"value": {
 										"chainId": "56",
 										"address": "0x73feaa1ee314f8c655e354234017be2193c9e24e"
+									}
+								},
+								"Externally Owned Address": {
+									"summary": "EOA (Externally Owned Address) example",
+									"value": {
+										"chainId": "56",
+										"address": "0x56306851238d7aee9fac8cdd6877e92f83d5924c"
 									}
 								},
 								"ERC-20": {
@@ -524,6 +524,256 @@
 												}
 											}
 										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized - Invalid API key",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v2/hashdit/txn-simulation": {
+			"post": {
+				"summary": "Transaction Simulation",
+				"description": "Simulates one or more EVM transactions without broadcasting them on-chain. The API evaluates token balance changes, approvals, ownership transfers, and address-level security risks to help detect malicious or unexpected behavior before execution.",
+				"operationId": "transactionSimulation",
+				"parameters": [
+					{
+						"name": "Content-Type",
+						"in": "header",
+						"description": "Must be set to application/json",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"default": "application/json"
+						}
+					},
+					{
+						"name": "X-API-Key",
+						"in": "header",
+						"description": "Your HashDit API key (required for production use)",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Transaction simulation request",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TransactionSimulationRequest"
+							},
+							"example": {
+								"chain_id": "56",
+								"block_height": "58083468",
+								"evm_transactions": [
+									{
+										"from": "0xfe4e28082959fc24d602719178bFC30d853a11D8",
+										"to": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+										"value": "0",
+										"gas_limit": "300000",
+										"gas_price": "150000000",
+										"data": "0x...",
+										"force": true
+									}
+								],
+								"requested_items": {
+									"balance_changes": true,
+									"approve_changes": false,
+									"ownership_changes": false,
+									"involved_address_risks": true,
+									"invocation_tree": false
+								},
+								"request_source": "Diting"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TransactionSimulationResponse"
+								},
+								"example": {
+									"code": "000000000",
+									"status": "OK",
+									"type": "GENERAL",
+									"data": {
+										"involved_addresses": [
+											"0xfe4e28082959fc24d602719178bfc30d853a11d8",
+											"0x10ed43c718714eb63d5aa57b78b54704e256024e",
+											"0x55d398326f99059ff775485246999027b3197955"
+										],
+										"involved_addresses_risks": [
+											{
+												"address": "0x55d398326f99059ff775485246999027b3197955",
+												"risk_level": 0,
+												"score": 100
+											},
+											{
+												"address": "0x51d0efe2ad6fe5c44528c8f2b3a80ab727c3a3fc",
+												"risk_level": 4,
+												"score": 60
+											}
+										],
+										"txn_summaries": [
+											{
+												"from": "0xfe4e28082959fc24d602719178bFC30d853a11D8",
+												"to": "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+												"gas_used": 229454,
+												"effective_gas_price": 150000000,
+												"called_addresses": [
+													"0x10ed43c718714eb63d5aa57b78b54704e256024e",
+													"0x55d398326f99059ff775485246999027b3197955"
+												],
+												"balance_changes": [
+													{
+														"tokenName": "Binance-Peg BSC-USD",
+														"symbol": "BSC-USD",
+														"token_address": "0x55d398326f99059ff775485246999027b3197955",
+														"change_list": [
+															{
+																"address": "0xfe4e28082959fc24d602719178bfc30d853a11d8",
+																"amount_change": "228.257892352717276327",
+																"value_usd": "228.155861074835611704"
+															}
+														]
+													}
+												]
+											}
+										]
+									},
+									"error_data": null
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized - Invalid API key",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v2/hashdit/solana-token-security": {
+			"post": {
+				"summary": "Solana Token Security",
+				"description": "Performs a comprehensive security assessment of a Solana token. The API analyzes mint authority, freeze authority, transfer restrictions, holder concentration, market liquidity, administrative privileges, and threat intelligence to determine the token's overall risk profile.",
+				"operationId": "solanaTokenSecurity",
+				"parameters": [
+					{
+						"name": "X-API-KEY",
+						"in": "header",
+						"description": "Your HashDit API key",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Solana token mint address to analyze",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SolanaTokenSecurityRequest"
+							},
+							"example": {
+								"address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Successful response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SolanaTokenSecurityResponse"
+								},
+								"example": {
+									"code": "0",
+									"status": "ok",
+									"data": {
+										"address": "sol:EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+										"address_type": "Solana",
+										"overall_risk_level": "Low Risk",
+										"overall_score": 80,
+										"token_info": {
+											"name": "USDC",
+											"symbol": "USDC",
+											"decimals": 6,
+											"price": 1
+										},
+										"mint_authority": {
+											"is_mintable": "1",
+											"is_risky": "0",
+											"authority_type": "wallet"
+										},
+										"freeze_authority": {
+											"is_freezable": "1",
+											"is_risky": "0"
+										},
+										"holders_concentration": {
+											"total_holders": "5717115",
+											"top1_concentration": "0.2231",
+											"top5_concentration": "0.4445",
+											"top10_concentration": "0.4908"
+										},
+										"market_info": {
+											"has_market_info": "1",
+											"total_pools": "10",
+											"total_volume_24h": "1147949703.936499"
+										},
+										"threat_intelligence": {
+											"risk_level": "0",
+											"trust_level": "2"
+										},
+										"scanned_time": 1765819025
 									}
 								}
 							}
@@ -799,8 +1049,7 @@
 					},
 					"overall_score": {
 						"type": "string",
-						"description": "Overall security score (0-100). Lower values indicate higher risk.",
-						
+						"description": "Overall security score (0-100). Lower values indicate higher risk."
 					},
 					"privilege": {
 						"$ref": "#/components/schemas/PrivilegeAnalysis"
@@ -834,8 +1083,7 @@
 				"properties": {
 					"days_deployed": {
 						"type": "string",
-						"description": "Number of days since deployment.",
-					
+						"description": "Number of days since deployment."
 					},
 					"low_activity": {
 						"type": "string",
@@ -986,6 +1234,461 @@
 						"type": "string",
 						"description": "Contract verification status.",
 						"enum": ["0", "1"]
+					}
+				}
+			},
+			"TransactionSimulationRequest": {
+				"type": "object",
+				"required": ["chain_id", "block_height", "evm_transactions", "requested_items"],
+				"properties": {
+					"chain_id": {
+						"type": "string",
+						"description": "Blockchain chain ID. Example: 56 for BNB Smart Chain.",
+						"enum": ["1", "56"]
+					},
+					"block_height": {
+						"type": "string",
+						"description": "Block height used as the simulation context.",
+						"example": "58083468"
+					},
+					"evm_transactions": {
+						"type": "array",
+						"description": "List of EVM transactions to simulate.",
+						"items": {
+							"$ref": "#/components/schemas/EVMTransaction"
+						}
+					},
+					"requested_items": {
+						"$ref": "#/components/schemas/RequestedItems"
+					},
+					"request_source": {
+						"type": "string",
+						"description": "Identifier for the request source (e.g. application name).",
+						"example": "Diting"
+					}
+				}
+			},
+			"EVMTransaction": {
+				"type": "object",
+				"required": ["from", "to", "value", "gas_limit", "gas_price", "data"],
+				"properties": {
+					"from": {
+						"type": "string",
+						"description": "Sender address.",
+						"example": "0xfe4e28082959fc24d602719178bFC30d853a11D8"
+					},
+					"to": {
+						"type": "string",
+						"description": "Target contract or recipient address.",
+						"example": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
+					},
+					"value": {
+						"type": "string",
+						"description": "Native token value (in wei).",
+						"example": "0"
+					},
+					"gas_limit": {
+						"type": "string",
+						"description": "Gas limit for the simulated transaction.",
+						"example": "300000"
+					},
+					"gas_price": {
+						"type": "string",
+						"description": "Gas price for the simulation. Measured in wei",
+						"example": "150000000"
+					},
+					"data": {
+						"type": "string",
+						"description": "Hex-encoded transaction calldata.",
+						"example": "0x..."
+					},
+					"force": {
+						"type": "boolean",
+						"description": "Forces simulation even if pre-checks fail.",
+						"example": true
+					}
+				}
+			},
+			"RequestedItems": {
+				"type": "object",
+				"properties": {
+					"balance_changes": {
+						"type": "boolean",
+						"description": "Include token balance change analysis."
+					},
+					"approve_changes": {
+						"type": "boolean",
+						"description": "Include ERC20 approval changes."
+					},
+					"ownership_changes": {
+						"type": "boolean",
+						"description": "Include ownership transfer detection."
+					},
+					"involved_address_risks": {
+						"type": "boolean",
+						"description": "Include risk scores for involved addresses."
+					},
+					"invocation_tree": {
+						"type": "boolean",
+						"description": "Include detailed call tree (expensive)."
+					}
+				}
+			},
+			"TransactionSimulationResponse": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "string",
+						"description": "API result code.",
+						"example": "000000000"
+					},
+					"status": {
+						"type": "string",
+						"description": "Request status (OK on success).",
+						"example": "OK"
+					},
+					"type": {
+						"type": "string",
+						"description": "Simulation category.",
+						"example": "GENERAL"
+					},
+					"data": {
+						"$ref": "#/components/schemas/TransactionSimulationData"
+					},
+					"error_data": {
+						"type": ["object", "null"],
+						"description": "Error details if simulation fails.",
+						"example": null
+					}
+				}
+			},
+			"TransactionSimulationData": {
+				"type": "object",
+				"properties": {
+					"involved_addresses": {
+						"type": "array",
+						"description": "All addresses touched during execution.",
+						"items": {
+							"type": "string"
+						}
+					},
+					"involved_addresses_risks": {
+						"type": "array",
+						"description": "Risk scores for involved addresses.",
+						"items": {
+							"$ref": "#/components/schemas/AddressRisk"
+						}
+					},
+					"txn_summaries": {
+						"type": "array",
+						"description": "Per-transaction simulation results.",
+						"items": {
+							"$ref": "#/components/schemas/TransactionSummary"
+						}
+					}
+				}
+			},
+			"AddressRisk": {
+				"type": "object",
+				"properties": {
+					"address": {
+						"type": "string",
+						"description": "Address that was analyzed.",
+						"example": "0x55d398326f99059ff775485246999027b3197955"
+					},
+					"risk_level": {
+						"type": "number",
+						"description": "Risk severity level. Higher values indicate higher risk. -1 indicates unknown risk.",
+						"enum": ["-1", "0", "1", "2", "3", "4", "5"]
+					},
+					"score": {
+						"type": "number",
+						"description": "Trust score. Higher values indicate higher trust. -1 indicates unknown score.",
+						"minimum": 0,
+						"maximum": 100
+					}
+				}
+			},
+			"TransactionSummary": {
+				"type": "object",
+				"properties": {
+					"from": {
+						"type": "string",
+						"description": "Sender address.",
+						"example": "0xfe4e28082959fc24d602719178bFC30d853a11D8"
+					},
+					"to": {
+						"type": "string",
+						"description": "Recipient address.",
+						"example": "0x10ED43C718714eb63d5aA57B78B54704E256024E"
+					},
+					"gas_used": {
+						"type": "number",
+						"description": "Gas consumed by the transaction.",
+						"example": 229454
+					},
+					"effective_gas_price": {
+						"type": "number",
+						"description": "Gas price applied during simulation. Measured in wei",
+						"example": 150000000
+					},
+					"called_addresses": {
+						"type": "array",
+						"description": "Contracts invoked during execution (if requested).",
+						"items": {
+							"type": "string"
+						}
+					},
+					"balance_changes": {
+						"type": "array",
+						"description": "Token balance changes by address (if requested).",
+						"items": {
+							"$ref": "#/components/schemas/BalanceChange"
+						}
+					},
+					"approve_changes": {
+						"type": "array",
+						"description": "ERC20 approval changes (if requested).",
+						"items": {
+							"type": "object"
+						}
+					},
+					"ownership_changes": {
+						"type": "array",
+						"description": "Ownership transfers (if requested).",
+						"items": {
+							"type": "object"
+						}
+					}
+				}
+			},
+			"BalanceChange": {
+				"type": "object",
+				"properties": {
+					"tokenName": {
+						"type": "string",
+						"description": "Name of the token.",
+						"example": "Binance-Peg BSC-USD"
+					},
+					"symbol": {
+						"type": "string",
+						"description": "Symbol of the token.",
+						"example": "BSC-USD"
+					},
+					"token_address": {
+						"type": "string",
+						"description": "Smart contract address of the token.",
+						"example": "0x55d398326f99059ff775485246999027b3197955"
+					},
+					"change_list": {
+						"type": "array",
+						"description": "List of balance changes for different addresses.",
+						"items": {
+							"$ref": "#/components/schemas/BalanceChangeItem"
+						}
+					}
+				}
+			},
+			"BalanceChangeItem": {
+				"type": "object",
+				"properties": {
+					"address": {
+						"type": "string",
+						"description": "Address with balance change.",
+						"example": "0xfe4e28082959fc24d602719178bfc30d853a11d8"
+					},
+					"amount_change": {
+						"type": "string",
+						"description": "Amount change in token units.",
+						"example": "228.257892352717276327"
+					},
+					"value_usd": {
+						"type": "string",
+						"description": "Amount change in USD.",
+						"example": "228.155861074835611704"
+					}
+				}
+			},
+			"SolanaTokenSecurityRequest": {
+				"type": "object",
+				"required": ["address"],
+				"properties": {
+					"address": {
+						"type": "string",
+						"description": "Solana token mint address.",
+						"example": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+					}
+				}
+			},
+			"SolanaTokenSecurityResponse": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "string",
+						"description": "API result code. \"0\" indicates success.",
+						"example": "0"
+					},
+					"status": {
+						"type": "string",
+						"description": "Request status.",
+						"example": "ok"
+					},
+					"data": {
+						"$ref": "#/components/schemas/SolanaTokenSecurityData"
+					}
+				}
+			},
+			"SolanaTokenSecurityData": {
+				"type": "object",
+				"properties": {
+					"address": {
+						"type": "string",
+						"description": "Fully qualified Solana token mint address.",
+						"example": "sol:EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+					},
+					"address_type": {
+						"type": "string",
+						"description": "Blockchain type (Solana).",
+						"example": "Solana"
+					},
+					"overall_risk_level": {
+						"type": "string",
+						"description": "Overall risk classification.",
+						"enum": ["No Obvious Risk", "Low Risk", "Medium Risk", "High Risk", "Significant Risk"]
+					},
+					"overall_score": {
+						"type": "number",
+						"description": "Security score (0–100). Lower values indicate higher risk.",
+						"minimum": 0,
+						"maximum": 100
+					},
+					"token_info": {
+						"$ref": "#/components/schemas/TokenInfo"
+					},
+					"mint_authority": {
+						"$ref": "#/components/schemas/MintAuthority"
+					},
+					"freeze_authority": {
+						"$ref": "#/components/schemas/FreezeAuthority"
+					},
+					"holders_concentration": {
+						"$ref": "#/components/schemas/HoldersConcentration"
+					},
+					"market_info": {
+						"$ref": "#/components/schemas/MarketInfo"
+					},
+					"threat_intelligence": {
+						"$ref": "#/components/schemas/ThreatIntelligence"
+					},
+					"scanned_time": {
+						"type": "number",
+						"description": "Unix timestamp of the latest scan.",
+						"example": 1765819025
+					}
+				}
+			},
+			"TokenInfo": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Token name.",
+						"example": "USDC"
+					},
+					"symbol": {
+						"type": "string",
+						"description": "Token symbol.",
+						"example": "USDC"
+					},
+					"decimals": {
+						"type": "number",
+						"description": "Token decimals.",
+						"example": 6
+					},
+					"price": {
+						"type": "number",
+						"description": "Current token price in USD(if available).",
+						"example": 1
+					}
+				}
+			},
+			"MintAuthority": {
+				"type": "object",
+				"properties": {
+					"is_mintable": {
+						"type": "string",
+						"description": "Determines whether new tokens can be minted.",
+						"enum": ["0", "1"]
+					},
+					"is_risky": {
+						"type": "string",
+						"description": "Indicates if mint authority poses risks.",
+						"enum": ["0", "1"]
+					},
+					"authority_type": {
+						"type": "string",
+						"description": "Type of mint authority.",
+						"enum": ["wallet", "program"]
+					}
+				}
+			},
+			"FreezeAuthority": {
+				"type": "object",
+				"properties": {
+					"is_freezable": {
+						"type": "string",
+						"description": "Indicates whether token transfers can be frozen.",
+						"enum": ["0", "1"]
+					},
+					"is_risky": {
+						"type": "string",
+						"description": "Indicates if freeze authority poses risks.",
+						"enum": ["0", "1"]
+					}
+				}
+			},
+			"HoldersConcentration": {
+				"type": "object",
+				"properties": {
+					"total_holders": {
+						"type": "string",
+						"description": "Total number of token holders.",
+				
+					},
+					"top1_concentration": {
+						"type": "string",
+						"description": "Percentage of supply held by top 1 holder. E.g. 0.2231 means 22.31%",
+						"example": "0.2231"
+					},
+					"top5_concentration": {
+						"type": "string",
+						"description": "Percentage of supply held by top 5 holders. E.g. 0.4445 means 44.45%",
+						"example": "0.4445"
+					},
+					"top10_concentration": {
+						"type": "string",
+						"description": "Percentage of supply held by top 10 holders. E.g. 0.4908 means 49.08%",
+						"example": "0.4908"
+					}
+				}
+			},
+			"MarketInfo": {
+				"type": "object",
+				"properties": {
+					"has_market_info": {
+						"type": "string",
+						"description": "Whether market information is available.",
+						"enum": ["0", "1"]
+					},
+					"total_pools": {
+						"type": "string",
+						"description": "Total number of liquidity pools."
+
+					},
+					"total_volume_24h": {
+						"type": "string",
+						"description": "Total 24-hour trading volume in USD.",
+						"example": "1147949703.936499"
 					}
 				}
 			},
