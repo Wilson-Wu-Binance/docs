@@ -36,7 +36,7 @@ Your local preview will be available at `http://localhost:3000`.
 
 ## Publishing Changes
 
-Install the GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+Changes are deployed to production automatically after pushing to the main branch.
 
 ## How to Create a Blog Post
 
@@ -62,17 +62,18 @@ At the top of your MDX file, add the frontmatter with the required metadata:
 ```mdx
 ---
 title: 'Your Blog Post Title Here'
+sidebarTitle: 'Your Blog Post Title Here'
 description: A brief description of your blog post.
-authors: [Sebastian]
-tags: [tag1, tag2, 2025]
 ---
 ```
 
 **Fields:**
 - `title`: The title of your blog post (required)
-- `description`: A short description for SEO and previews (optional but recommended)
-- `authors`: Array of author names (required)
-- `tags`: Array of tags for categorization (optional)
+- `sidebarTitle`: The title displayed in the sidebar navigation (required - should match `title`)
+- `description`: A short description for SEO and previews (optional)
+
+
+**Important:** The `sidebarTitle` field is required for production builds. Without it, blog post titles may not display correctly in the sidebar menu. Always set `sidebarTitle` to match your `title` field.
 
 ### Step 3: Add Date and Author Information
 
@@ -157,13 +158,16 @@ The user lost \$2.1 million in the attack.
 
 ### Blog Post Title Format
 
-Blog post titles are defined in the frontmatter at the top of the file:
+Blog post titles are defined in the frontmatter at the top of the file. You must include both `title` and `sidebarTitle` fields:
 
 ```mdx
 ---
 title: 'PancakeSwap October 26th Weekly Security Report'
+sidebarTitle: 'PancakeSwap October 26th Weekly Security Report'
 ---
 ```
+
+**Note:** The `sidebarTitle` field is required for production builds to ensure titles display correctly in the sidebar navigation. Always set it to match your `title` field.
 
 ### Blog Post Date and Author Format
 
