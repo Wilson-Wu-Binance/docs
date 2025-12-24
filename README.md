@@ -28,6 +28,7 @@ mint dev
 
 Your local preview will be available at `http://localhost:3000`.
 
+
 ### Troubleshooting
 
 - If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
