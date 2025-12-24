@@ -1,0 +1,83 @@
+---
+title: 'HashDit API Integration'
+
+---
+
+<div style={{ marginBottom: '1rem', color: '#666', fontSize: '0.9rem' }}>March 12, 2024</div>
+
+<div style={{ display: 'flex', alignItems: 'center', gap: '1rem'}}>
+  <img src="/images/SebastianGitHub.jpeg" alt="Sebastian Lim" style={{ width: '50px', height: '50px', borderRadius: '50%', margin: '0' }} />
+  <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <span style={{ color: '#4063FF' }}><strong>Author:</strong> <a href="https://github.com/slim115" target="_blank" rel="noopener noreferrer" style={{ color: '#4063FF', textDecoration: 'none' }} onMouseOver={(e) => e.target.style.textDecoration = 'underline'} onMouseOut={(e) => e.target.style.textDecoration = 'none'}>Sebastian Lim</a></span>
+    <span style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem' }}>SCS@HashDit</span>
+  </div>
+</div>
+
+<div align="justify">
+
+## HashDit API Integration
+
+### What Is HashDit?
+<p>HashDit is a Web3 Security Firm dedicated to providing completely free security solutions to both end users and protocol developers on the BNB Chain. Our central objective is to furnish crucial threat intelligence to empower day-to-day DeFi investors in making well-informed decisions. Navigating this DeFi intricate landscape poses challenges even for seasoned investors, let alone newcomers. HashDit aims to bridge this knowledge gap by offering timely and comprehensive threat intelligence on DeFi projects. HashDit's API integration extends its influence to numerous prominent applications, anchoring active measures to safeguard users from the clutches of fraudulent activities. HashDit typical clients include but are not limited to the following protocols.</p>
+
+#### 1.TrustWallet
+<p>HashDit's API takes center stage within TrustWallet, an industry vanguard Web3 Wallet. Serving as a protective layer within the user experience, HashDit's threat intelligence suite preempts elevated risks by promptly notifying users before they connect to the dApp or execute transactions. This proactive approach ensures users operate with heightened vigilance, fortifying their engagement within the dynamic DeFi landscape.</p>
+
+<span style={{backgroundColor: '#d3d3d3'}}>
+<p>In 2023, HashDit API continually safeguarded assets on TrustWallet and prevented 584k of 630k risky BSC transactions, that's a 93% coverage, preventing users from transferring nearly \$169m to scammers!</p>
+</span>
+
+<br /> 
+<br /> 
+
+#### 2.PancakeSwap
+<p>This leading DEX on the BNBChain, with a substantial \$1.3 billion in TVL, seamlessly incorporates HashDit's solution. Automated scans of tokens within the PancakeSwap framework offer users discernible risk scores. This feature empowers users with real-time insights into potential transactional risks, bolstering informed decision-making amid their DeFi interactions.</p>
+
+#### 3.BscScan
+<p>A prime example of HashDit's impact unfolds through its collaboration with blockchain explorers, most notably BscScan. Integrating risk alerts within the explorer's interface bolsters user prudence and caution. Users are empowered to tread warily when engaging with projects or addresses displaying suspicious or high-risk attributes. This measured approach fosters an environment of cautious exploration, preventing undue exposure to potential risks.</p>
+
+
+### Integrate HashDit API With 3 Steps
+
+* Step1: Apply for access by sending a request with following information to support@hashdit.com.
+* Project name
+* Project description & main products
+* Estimated chains
+* Estimated QPS
+* Query Per Second, the HashDit Security API rate limit is 1200 calls/minute. If you require a higher limit than the available plans, please input correct QPS info.
+* Scenario (see more details in “Security Scanner Scenario” below)
+* DeFi Wallet
+* Url Security Scanner
+* Address Security Scanner
+* Dex
+* Token Security Scanner
+* Others (input the description)
+* Release date
+* Step2: HashDit team will review the request and provide the api token and test examples within 5 work days.
+* Step3: You can build up the Security Scanner within your project 🎉.
+
+### Security Scanner Scenario
+
+#### 1.Wallet
+* Typical Example: <br /> https://trustwallet.com/blog/a-safer-web3-experience-with-trust-wallet-security-scanner
+* Url Security Scanner
+* API: https://hashdit.github.io/hashdit/docs/hashdit-api/dapp-url-analysis
+* User interaction and design references
+
+![IMG-1](/blog/2024-03-12/2024-03-12-images/1.png)
+
+* Address Security Scanner
+* API: https://hashdit.github.io/hashdit/docs/hashdit-api/address-analysis-api
+* User interaction and design references
+
+![IMG-2](/blog/2024-03-12/2024-03-12-images/2.png)
+
+#### 2.Dex Token Security Scanner
+* Typical Example: <br /> https://pancakeswap.finance/swap?outputCurrency=0xDd25E1955FD9F7B3aBE83CC419070A7ace104DCE
+
+* API：https://hashdit.github.io/hashdit/docs/hashdit-api/address-analysis-api
+* User interaction and design references
+
+![IMG-3](/blog/2024-03-12/2024-03-12-images/3.png)
+
+</div>
