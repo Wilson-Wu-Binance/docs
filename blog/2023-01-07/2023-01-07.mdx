@@ -19,7 +19,7 @@ title: "Multisig Wallet Migration Guide"
 <div align="justify">
 
 <p>
-	&emsp;Multi-signature wallets, also referred to as multisig wallets, are standardized smart contracts that consolidate multiple accounts and
+	Multi-signature wallets, also referred to as multisig wallets, are standardized smart contracts that consolidate multiple accounts and
 	private keys into a single wallet for managing crypto assets. The main goal of a multisig wallet is to create redundancy by requiring multiple
 	private key signatures to authorize a transaction, similar to other crypto wallet solutions. Smart wallets utilize a group of exclusive key pairs
 	and wallet owners can set the minimum number of signatures required for authorizing any transaction, allowing them to distribute the keys
@@ -29,7 +29,7 @@ title: "Multisig Wallet Migration Guide"
 </p>
 
 <p>
-	&emsp;To learn more about the risks associated with traditional crypto wallets and to get a comprehensive technical analysis of the benefits of
+	To learn more about the risks associated with traditional crypto wallets and to get a comprehensive technical analysis of the benefits of
 	using a multisig wallet, please check out our article, [The Risk and Future of Crypto
 	Wallets](https://hashdit.github.io/hashdit/blog/The-risks-and-future-of-crypto-wallets/). In this article, we compare MPC Wallet and Smart Wallets
 	and explain which one is preferable from a security perspective. As crypto wallets are a critical component in a blockchain system, it is crucial
@@ -37,7 +37,7 @@ title: "Multisig Wallet Migration Guide"
 </p>
 
 <p>
-	&emsp;That's why we've created a guide on how to migrate from a conventional wallet to a multisig solution. Since crypto wallets are a single
+	That's why we've created a guide on how to migrate from a conventional wallet to a multisig solution. Since crypto wallets are a single
 	point of failure, we recommend transitioning to smart wallets to reduce the impact if one of the private keys is intentionally or accidentally
 	leaked. Additionally, this significantly diminishes the likelihood of former employees attacking the protocol in case of an inside job.
 </p>
@@ -49,7 +49,7 @@ title: "Multisig Wallet Migration Guide"
 <div align="justify">
 
 <p>
-	&emsp;This guide outlines the process of migrating your wallets to a secure multisig wallet using Gnosis Safe and Trust Wallet. We provide
+	This guide outlines the process of migrating your wallets to a secure multisig wallet using Gnosis Safe and Trust Wallet. We provide
 	step-by-step instructions for you and your team to perform a straightforward migration by transferring smart contract ownership to the newly
 	created multi-sig wallet.
 </p>
@@ -88,7 +88,7 @@ title: "Multisig Wallet Migration Guide"
 <div align="justify">
 
 <p>
-	&emsp;We highly recommend that all projects managing significant amounts of crypto assets, such as project treasuries, migrate their funds to new
+	We highly recommend that all projects managing significant amounts of crypto assets, such as project treasuries, migrate their funds to new
 	smart wallets. Additionally, we strongly advise projects with simple crypto wallets that have elevated privileges in their decentralized
 	applications to switch to a multisig solution. If your project has any roles with elevated privileges in its smart contracts, it is essential to
 	migrate all the wallets from classic to multisig setups. This guide provides detailed instructions on how to use Gnosis Safe and Trust Wallet to
@@ -97,7 +97,7 @@ title: "Multisig Wallet Migration Guide"
 </p>
 
 <p>
-	&emsp;Make sure your smart contracts have a mechanism to change the addresses with elevated roles. For instance, if your smart contract is using
+	Make sure your smart contracts have a mechanism to change the addresses with elevated roles. For instance, if your smart contract is using
 	the Ownable interface, one might be able to use the contract function
 	[transferOwnership](https://docs.openzeppelin.com/contracts/2.x/api/ownership#Ownable-transferOwnership-address-) to transfer the ownership
 	between addresses - in this case from an External Owned Address (EOA) to the multisig wallet. If your contract does not have this capability to
@@ -149,7 +149,7 @@ title: "Multisig Wallet Migration Guide"
 <p>Open Trust Wallet with the device of your choice. Trust Wallet exists for mobile android, iOS, Web plugins's and desktop platforms.</p>
 
 <p>
-	&emsp;To associate your wallet with the multisig one, use your favorite platform and either scan the QR code that appears on your screen with your
+	To associate your wallet with the multisig one, use your favorite platform and either scan the QR code that appears on your screen with your
 	smartphone or upload the QR code using the associate feature in the app. Make sure to choose the Trust Wallet with enough funds to pay for the
 	Transaction. In our case, the multisig creation cost only 0.31\$.
 </p>
@@ -165,13 +165,13 @@ title: "Multisig Wallet Migration Guide"
 <li> Associate the wallets via QR code identification.</li>
 
 <p>
-	&emsp;After scanning the QR code with the Trust Wallet application, the Trust Wallet BNB Smart Chain address becomes available on the right top
+	After scanning the QR code with the Trust Wallet application, the Trust Wallet BNB Smart Chain address becomes available on the right top
 	corner of the following page.
 </p>
 
 <li>Setup the multisig wallet details</li>
 
-<p>&emsp;Choose a multisig wallet name that is displayed in the Gnosis Safe web app. Finally, make sure you select the BNB Smart Chain network.</p>
+<p>Choose a multisig wallet name that is displayed in the Gnosis Safe web app. Finally, make sure you select the BNB Smart Chain network.</p>
 
 ![Safe Setup](/blog/2023-01-07/safe_creation.png)
 
@@ -185,13 +185,13 @@ title: "Multisig Wallet Migration Guide"
 <p>Click Next and add the other wallet addresses of the wallets used to validate your transactions.</p>
 
 <p>
-	&emsp;For relevant crypto wallets, we recommend at least 3 signatures. Also, we recommend using a threshold of at least 50% of the total number of
+	For relevant crypto wallets, we recommend at least 3 signatures. Also, we recommend using a threshold of at least 50% of the total number of
 	associated wallets. The more keys a project manages the larger surface of the attack and the higher the probability of mismanaging them or having
 	them stolen.
 </p>
 
 <p>
-	&emsp;Such a recommendation comes after the incident with Harmony Horizon Bridge had 2 out of 5 private keys stolen and also raised a concern
+	Such a recommendation comes after the incident with Harmony Horizon Bridge had 2 out of 5 private keys stolen and also raised a concern
 	about how to securely manage private keys on a validator node… But that's a discussion for another time.
 </p>
 
@@ -216,7 +216,7 @@ title: "Multisig Wallet Migration Guide"
 <li>Validate the multisig creation from your TrustWallet app.</li>
 
 <p>
-	&emsp;When clicking next, your Gnosis requests the confirmation and the signature from your first and main wallet. In the meantime, the screen
+	When clicking next, your Gnosis requests the confirmation and the signature from your first and main wallet. In the meantime, the screen
 	looks like this:
 </p>
 
@@ -239,7 +239,7 @@ title: "Multisig Wallet Migration Guide"
 <br />
 
 <p>
-	&emsp;Approving the transaction pays the required fees for Gnosis to deploy the multisig smart contract on the chain. Once the transaction is
+	Approving the transaction pays the required fees for Gnosis to deploy the multisig smart contract on the chain. Once the transaction is
 	approved and paid, the Gnosis web app should change to
 </p>
 
@@ -251,7 +251,7 @@ title: "Multisig Wallet Migration Guide"
 <br />
 
 <p>
-	&emsp;Finally, you can see your multi-wallet created in the Safe. You find the following page with your multisig wallet address. This is the new
+	Finally, you can see your multi-wallet created in the Safe. You find the following page with your multisig wallet address. This is the new
 	0x address you should use when migrating your contracts.
 </p>
 
@@ -265,12 +265,12 @@ title: "Multisig Wallet Migration Guide"
 <li>Managing Gnosis multisig wallet.</li>
 
 <p>
-	&emsp;After the creation, it is still possible to perform changes in wallet composition. it is possible to manage (add, remove) the wallets
+	After the creation, it is still possible to perform changes in wallet composition. it is possible to manage (add, remove) the wallets
 	associated with the multisig one as well as change the threshold number for validating transactions.
 </p>
 
 <p>
-	&emsp;For this reason, access to the Gnosis Safe app should be very limited. Never leave your notebook unlocked and don’t use password-saving
+	For this reason, access to the Gnosis Safe app should be very limited. Never leave your notebook unlocked and don’t use password-saving
 	features in web browsers. Make sure to have a clear change management process for performing this kind of change.
 </p>
 
@@ -289,13 +289,13 @@ title: "Multisig Wallet Migration Guide"
 <div align="justify">
 
 <p>
-	&emsp;Before performing the migration directly on the main net. Projects should always try to perform the migration in the BNB smart chain test
+	Before performing the migration directly on the main net. Projects should always try to perform the migration in the BNB smart chain test
 	chain. However, it is possible your team already has internal technical guidelines or processes regarding such migration. Make sure to check with
 	your team lead before moving forward.
 </p>
 
 <p>
-	&emsp;Even if Trust wallet and Gnosis Safe aren’t (yet) available in BNB smart chain testnet, it is important to test the transaction in the
+	Even if Trust wallet and Gnosis Safe aren’t (yet) available in BNB smart chain testnet, it is important to test the transaction in the
 	testnet and validate that your transaction has the expected results. Transferring the ownership of a smart contract to an address you don’t own
 	can have serious consequences. You would not only make you lose control of the smart contract and its associated funds but it would also make you
 	lose ownership of all the smart contracts that the first smart contract owned.
@@ -309,7 +309,7 @@ title: "Multisig Wallet Migration Guide"
 </p>
 
 <p>
-	&emsp;Using the following brownie script One can change the ownership of a dummy contract that uses Ownable interface. It only requires us to use
+	Using the following brownie script One can change the ownership of a dummy contract that uses Ownable interface. It only requires us to use
 	the transferOwnership capabilities.
 </p>
 
@@ -333,10 +333,10 @@ title: "Multisig Wallet Migration Guide"
 </div>
 <br />
 
-&emsp;Note: the best practices would require the project teams to use the same tech in the test phase - Gnosis Safe and Trust Wallet but they are not available in Test net. Therefore feel free to use other wallet solutions compatible with BNB smart chain testnet such as Metamask.
+Note: the best practices would require the project teams to use the same tech in the test phase - Gnosis Safe and Trust Wallet but they are not available in Test net. Therefore feel free to use other wallet solutions compatible with BNB smart chain testnet such as Metamask.
 
 <p>
-	&emsp;Note 2: One might feel comfortable using the dev tools forking mechanism to perform the test locally and validate that the transaction has
+	Note 2: One might feel comfortable using the dev tools forking mechanism to perform the test locally and validate that the transaction has
 	the expected results. However, for larger projects, small changes can have a considerable impact on their other smart contracts. Also, other
 	decentralized applications might depend on them. Therefore it is preferable to perform such validation in a long-lasting environment such as the
 	actual Blockchain Testnet environment. Also, running all integration tests might be required to confirm no collateral issues.

@@ -29,7 +29,7 @@ title: 'Monthly Incident Sharing - March 2024'
 
 <p>Munchables is a GameFi and NFT protocol. In this attack, it was confirmed to be an Insider Attack where a rogue employee was malicious, gaining access to a privileged account. After malicious logic was introduced in a proxy contract upgrade, 62M funds were transferred out by the attacker. Thankfully, after some negotiation and investigation, the funds were eventually returned.</p>
 
-**Root cause**: Malicious developer was hired and suspected to be linked to DPRK, and had bad intentions right from the start. It was found that the malicious logic was already introduced during deployment and the bad actor used manual manipulation of the getLocked storage slot to assign himself an enormous Ether balance in the contract, so that his locked amount would bypass the withdrawal checks.
+<p>**Root cause**: Malicious developer was hired and suspected to be linked to DPRK, and had bad intentions right from the start. It was found that the malicious logic was already introduced during deployment and the bad actor used manual manipulation of the getLocked storage slot to assign himself an enormous Ether balance in the contract, so that his locked amount would bypass the withdrawal checks.</p>
 
 **Onchain information**:
 
@@ -96,7 +96,7 @@ title: 'Monthly Incident Sharing - March 2024'
 
 <p>SSS_HQ or Super Sushi Samurai is a GameFi platform on Blast chain. In this attack, thankfully a White Hat was able to spot the bug before any malicious actor, where he increased his own balance by repeatedly transferring to himself. He subsequently swapped these tokens in the liquidity pool and protected the liquidity of ~\$4.8m.</p>
 
-**Root cause**: The tax transfer logic is wrongly implemented in the _update method of the SSS.sol code. The _balances[to] value is incremented before the _balances[from] value is updated (done within the _postCheck method), seen in the first picture. As such, the balance of the to address uses the stale value i.e original balance, seen in the second picture. This is summed with the amount variable, stored in the toBalance variable and subsequently overwriting the _balances[from] in the last statement, almost doubling the sender’s balance.
+<p>**Root cause**: The tax transfer logic is wrongly implemented in the _update method of the SSS.sol code. The _balances[to] value is incremented before the _balances[from] value is updated (done within the _postCheck method), seen in the first picture. As such, the balance of the to address uses the stale value i.e original balance, seen in the second picture. This is summed with the amount variable, stored in the toBalance variable and subsequently overwriting the _balances[from] in the last statement, almost doubling the sender’s balance.</p>
 
 **Onchain information**:
 
@@ -112,7 +112,7 @@ title: 'Monthly Incident Sharing - March 2024'
 
 <p>Unizen is a DeFi protocol which operates as a DEX across multiple chains. In this instance, the attack happened on Ethereum, just 5 hours after the victim proxy was upgraded to a vulnerable logic contract. The vulnerable contract introduced a function 0x1ef29a02 which allowed arbitrary calldata to be sent.</p>
 
-**Root cause**: Lack of validation in a Swap related function (which allowed arbitrary transferFrom calls, specifying the From, To and Amount parameters). As such, victims that have approved their funds to this contract will be affected.
+<p>**Root cause**: Lack of validation in a Swap related function (which allowed arbitrary transferFrom calls, specifying the From, To and Amount parameters). As such, victims that have approved their funds to this contract will be affected.</p>
 
 **Onchain information**:
 
