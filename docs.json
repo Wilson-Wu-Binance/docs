@@ -131,8 +131,8 @@
    
   },
   "logo": {
-    "light": "/logo/HashDitLogo.svg",
-    "dark": "/logo/HashDitLogo.svg"
+    "light": "/images/HashDitLogo.svg",
+    "dark": "/images/HashDitLogo.svg"
   },
   "navbar": {
     "links": [

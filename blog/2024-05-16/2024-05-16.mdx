@@ -6,8 +6,9 @@ title: 'Security Scan Summary Report for Cross-Chain Bridges on the BNB Chain'
 <div style={{ marginBottom: '1rem', color: '#666', fontSize: '0.9rem' }}>May 16, 2024</div>
 
 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem'}}>
+  <img src="/images/HashDit.svg" alt="HashDit" style={{ width: '50px', height: '50px', borderRadius: '50%', margin: '0' }} />
   <div style={{ display: 'flex', flexDirection: 'column' }}>
-    <span style={{ color: '#4063FF' }}><strong>Author:</strong> Chris</span>
+    <span><strong>Author:</strong> Chris</span>
     <span style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem' }}>SCS@HashDit</span>
   </div>
 </div>
@@ -69,7 +70,7 @@ title: 'Security Scan Summary Report for Cross-Chain Bridges on the BNB Chain'
 2. In some bridge projects, the smart contracts have applied the proxy pattern. While their proxy contracts are open-source, the corresponding logic contracts are closed-source.
 3. In some bridge projects, closed-source smart contracts are used as privileged roles in certain smart contracts.
 4. In some bridge projects, Externally Owned Accounts (EOAs) are used as key privileged roles in smart contracts, possessing various privileged functions.
-5. In some bridge projects, although multi-signature wallets have been used as privileged roles in smart contracts, the multi-signature wallets have set unreasonable/low thresholds (<51%).
+5. In some bridge projects, although multi-signature wallets have been used as privileged roles in smart contracts, the multi-signature wallets have set unreasonable/low thresholds (&lt;51%).
 6. In some bridge projects, despite the use of multi-signature wallets as privileged roles in smart contracts, the number of owners set for the multi-signature wallet is unreasonable, such as only consisting of one owner. This essentially means that the degree of centralization is equivalent to that of an EOA.
 
 <p>Through our communication and initiatives, thus far, at least four project teams have completely or partially addressed the existing issues. Therefore, currently, there are 16 projects that have implemented good security practices in these two respects. We are still actively communicating with the remaining projects.</p>
@@ -138,6 +139,6 @@ title: 'Security Scan Summary Report for Cross-Chain Bridges on the BNB Chain'
 
 - **Multi-Sig Wallet**: A multi-signature (multi-sig) wallet is a type of digital wallet that requires approval from multiple parties to authorize a cryptocurrency transaction. This type of wallet is designed to provide increased security, as it minimizes the risk of single-point failures or attacks. The 'multi-signature' aspect refers to the multiple cryptographic keys involved: each co-owner of the wallet has a unique key, and a preset number (the 'threshold') of these keys must be used in concert to authorize a transaction.
 
-- **MPC(Multi-Party Computation)**: A Multi-Party Computation (MPC) wallet utilizes multi-party computation technology, in which each party holds a piece of the private key, and computations are collaboratively concluded without revealing individual inputs. This introduces a new level of security as no single party has access to the entire private key, and transactions require authorization from multiple parties, making it extremely difficult for attackers. MPC is used in various applications such as privacy-preserving data analytics, secure voting, secret sharing, etc., including enhancing the security of crypto wallets and transactions. Compared to multi-signature wallets, the method provided by MPC for ensuring security is different; an MPC wallet offers security through private key sharing without needing to execute a multi-party transaction on the blockchain, while multi-signature wallets offer security by approving transactions with multiple keys executed on the blockchain (leading to typically higher gas fees).
+- **MPC (Multi-Party Computation)**: A Multi-Party Computation (MPC) wallet utilizes multi-party computation technology, in which each party holds a piece of the private key, and computations are collaboratively concluded without revealing individual inputs. This introduces a new level of security as no single party has access to the entire private key, and transactions require authorization from multiple parties, making it extremely difficult for attackers. MPC is used in various applications such as privacy-preserving data analytics, secure voting, secret sharing, etc., including enhancing the security of crypto wallets and transactions. Compared to multi-signature wallets, the method provided by MPC for ensuring security is different; an MPC wallet offers security through private key sharing without needing to execute a multi-party transaction on the blockchain, while multi-signature wallets offer security by approving transactions with multiple keys executed on the blockchain (leading to typically higher gas fees).
 
 </div>

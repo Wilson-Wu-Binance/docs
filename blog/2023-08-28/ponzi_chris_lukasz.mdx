@@ -1,12 +1,17 @@
 ---
-title: 'Ponzi Schemes in Web3'
-
+title: 'Ponzi Schemes in Web3 - Swamps in the Dark'
 ---
 
-- Swamps in the Dark authors: [Chris, Lukasz] tags: [ponzi, scam, smart-contract-security]
----
+<div style={{ marginBottom: '1rem', color: '#666', fontSize: '0.9rem' }}>August 28, 2023</div>
 
-## Ponzi Schemes in Web3 --- Swamps in the Dark 
+<div style={{ display: 'flex', alignItems: 'center', gap: '1rem'}}>
+  <img src="/images/HashDit.svg" alt="HashDit" style={{ width: '50px', height: '50px', borderRadius: '50%', margin: '0' }} />
+  <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <span><strong>Author: </strong>Chris, Lukasz</span>
+    <span style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem' }}>SCS@HashDit</span>
+  </div>
+</div>
+
 
 *A guide on how to stay safe when interacting with DeFi projects*
 
@@ -122,24 +127,59 @@ title: 'Ponzi Schemes in Web3'
 
 <p>However, sometimes the project party does not directly impose a tax fee, claiming to have a 0% tax fee. In reality, the project party can become the initial referrer and continuously profit through the referral mechanism. This method of profiting is just more concealed.</p>
 
-### **Go further: A complete Ponzi example for more tech-savvy users**
+### **Going further: A complete Ponzi example for more tech-savvy users**
 
 <p>Let's go further! we created a sample ponzi scheme code based on what we're finding during our everyday work. We encourage you to study below simple smart contract code.</p>
 
 
-<p>```solidity pragma solidity ^0.8.0;</p>
+```solidity
+pragma solidity ^0.8.0;
 
-<p>contract PonziScheme { address public owner; mapping(address => uint) public investments; mapping(address => uint) public recruits; mapping(address => uint) public investmentTimestamp;</p>
+contract PonziScheme {
+    address public owner;
+    mapping(address => uint) public investments;
+    mapping(address => uint) public recruits;
+    mapping(address => uint) public investmentTimestamp;
 
-<p>constructor() { owner = msg.sender; }</p>
+    constructor() {
+        owner = msg.sender;
+    }
 
-<p>function recruitAndInvest(address referralAddress) public payable { require(msg.sender != referralAddress, "Cannot refer yourself"); require(investments[msg.sender] == 0, "Already invested"); require(msg.value == 0.1 ether, "Investment should be 0.1 Ether for recruitment bonus"); // Add the recruit count for the referrer recruits[referralAddress]++; // Add the investment for the new investor with the bonus investments[msg.sender] = msg.value + 0.1 ether; // 0.1 ether bonus investmentTimestamp[msg.sender] = block.timestamp; }</p>
+    function recruitAndInvest(address referralAddress) public payable {
+        require(msg.sender != referralAddress, "Cannot refer yourself");
+        require(investments[msg.sender] == 0, "Already invested");
+        require(msg.value == 0.1 ether, "Investment should be 0.1 Ether for recruitment bonus");
+        // Add the recruit count for the referrer
+        recruits[referralAddress]++;
+        // Add the investment for the new investor with the bonus
+        investments[msg.sender] = msg.value + 0.1 ether; // 0.1 ether bonus
+        investmentTimestamp[msg.sender] = block.timestamp;
+    }
 
-<p>function calculateTotalReturn(address investor) public view returns(uint) { uint numberOfRecruits = recruits[investor]; uint baseInvestment = investments[investor]; uint profit = 0; if (numberOfRecruits >= 10) { profit = baseInvestment * 50 / 100; // 50% ROI } else if (numberOfRecruits >= 5) { profit = baseInvestment * 25 / 100; // 25% ROI } return baseInvestment + profit; // Total return = initial investment + profit }</p>
+    function calculateTotalReturn(address investor) public view returns(uint) {
+        uint numberOfRecruits = recruits[investor];
+        uint baseInvestment = investments[investor];
+        uint profit = 0;
+        if (numberOfRecruits >= 10) {
+            profit = baseInvestment * 50 / 100; // 50% ROI
+        } else if (numberOfRecruits >= 5) {
+            profit = baseInvestment * 25 / 100; // 25% ROI
+        }
+        return baseInvestment + profit; // Total return = initial investment + profit
+    }
 
-<p>function cashOut() public { uint totalReturn = calculateTotalReturn(msg.sender); if (totalReturn == investments[msg.sender]) { require(block.timestamp >= investmentTimestamp[msg.sender] + 90 days, "Minimum 90 days required to withdraw without recruits"); } require(address(this).balance >= totalReturn, "Insufficient funds in the contract"); msg.sender.transfer(totalReturn); investments[msg.sender] = 0; recruits[msg.sender] = 0; } }</p>
-
-<p>```</p>
+    function cashOut() public {
+        uint totalReturn = calculateTotalReturn(msg.sender);
+        if (totalReturn == investments[msg.sender]) {
+            require(block.timestamp >= investmentTimestamp[msg.sender] + 90 days, "Minimum 90 days required to withdraw without recruits");
+        }
+        require(address(this).balance >= totalReturn, "Insufficient funds in the contract");
+        msg.sender.transfer(totalReturn);
+        investments[msg.sender] = 0;
+        recruits[msg.sender] = 0;
+    }
+}
+```
 
 
 -   **Entry Point:** The entry point for new investors is the
@@ -176,15 +216,11 @@ title: 'Ponzi Schemes in Web3'
 
 ![](media/image11.jpg)
 
-<p>You can also search on the Dappbay website</p>
-(https://dappbay.bnbchain.org/r) based on the Dapp's name, Twitter,
-<p>website, etc., to see if the project has been marked as significant risk.</p>
+<p>You can also search on the Dappbay website (https://dappbay.bnbchain.org/risk-scanner) based on the Dapp's name, Twitter, website, etc., to see if the project has been marked as significant risk.</p>
 
 ![](media/image12.jpg)
 
-<p>Additionally, you can follow HashDit's X</p>
-(https://twitter.com/HashDit). HashDit continuously monitors data on the
-<p>BNB chain and provides ongoing alerts for BNB chain-related risks.</p>
+<p>Additionally, you can follow HashDit's X (https://twitter.com/HashDit). HashDit continuously monitors data on the BNB chain and provides ongoing alerts for BNB chain-related risks.</p>
 
 <p>Remember, never invest blindly in the dark forest of Web3. HashDit will guide you around every "swamp" and protect your Web3 journey!</p>
 
@@ -194,4 +230,27 @@ title: 'Ponzi Schemes in Web3'
 
 <p>(Scroll right on the form below for more information)</p>
 
-<p>| Chain_id | Address                                        | Website                                                                                                                         | Project Name          | Risk Reason Remark                                                                                                        | |----------|------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|-----------------------|---------------------------------------------------------------------------------------------------------------------------| | 56      | 0x3f3f162e8F172fB681a4Fe9BE187B0FF21fE0734    | [avaricetoken.io](https://avaricetoken.io)                                                                                      | Avarice               | Ponzi Scam Project                                                                                                        | | 56      |                                                | [bnbdaily.finance](https://bnbdaily.finance/)                                                                                   | BNB Daily Finance     | Ponzi project - Offers unsustainable rates of "DAILY ROI 0.7%". Lack of investments, product, documentation. Opaque team. | | 56      | 0x3471Cc34ED5d7ceadd0a533dedA18ecC0d6Bd927    | [cashbox.cfd](https://cashbox.cfd/)                                                                                             | Cashbox Investment Pool| High APR/APY. Lack of investments, product, documentation. Opaque team.                                                 | | 56      |                                                | [finx.global](https://app.finx.global/)                                                                                         | FinSwap               | High APR/APY. Centralization in top holders.                                                                              | | 56      |                                                | [busdyield.com](https://busdyield.com)                                                                                          | BUSDYield             | Ponzi SCAM Project                                                                                                       | | 56      |                                                | [twitter.com/x_roi_community](https://twitter.com/x_roi_community)                                                               | TrueFund              | Ponzi scam Project                                                                                                       | | 56      |                                                | [bnbcrush.io](https://bnbcrush.io)                                                                                              | BNB Crush             | Ponzi scam Project                                                                                                       | | 56      |                                                | [ai-trader.app](https://ai-trader.app)                                                                                          | AI Trader             | Ponzi scam Project                                                                                                       | | 56      |                                                | [chronostake.com](https://chronostake.com)                                                                                      | ChronoStake           | Ponzi scam Project                                                                                                       | | 56      |                                                | [rewardscapital.app](https://rewardscapital.app/)                                                                               | Reward Capital        | Ponzi SCAM Project                                                                                                       | | 56      |                                                | [sharkbnb.cloud](https://sharkbnb.cloud/)                                                                                       | Shark BNB             | Ponzi SCAM Project                                                                                                       | | 56      | 0x00000065cBADeAD116136940b302F938284f2BDc    | [poop.fi](https://poop.fi/)                                                                                                     | Poop                  | Ponzi SCAM Project                                                                                                       | | 56      | 0xa06411Af90C84fa9Ba4168CC08D8618A602826ba    | [staker.cafe](https://staker.cafe/)                                                                                             | Staker Cafe           | Ponzi SCAM Project                                                                                                       | | 56      |                                                | [matrixpro.vip](https://matrixpro.vip)                                                                                          | Matrix Pro            | Ponzi SCAM Project                                                                                                       | | 56      | 0x80B48C38Ced124eA15a2c19684877ccE4Ab2D524    | [lamon.app](https://lamon.app/?utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website)                             | Lamon App             | Ponzi SCAM Project                                                                                                       | | 56      |                                                | [fin-toch.com](https://fin-toch.com/?utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website)                       | FTC                   | Ponzi SCAM Project                                                                                                       | | 56      | 0xca7Ea9003a9cA60c2adC054a379035723A7a9F49    | [kingdomlegacy.io](https://www.kingdomlegacy.io/?p=0xe81209fB4C63E1aE6A9Cc4498d75cd4C7Ae947CA&utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website) | Kingdom Legacy        | Ponzi SCAM Project                                                                                                       | | 56      | 0xd96099403F4b47C3046A6Da11d8cAf254D806398    | [towers.pizza](https://towers.pizza/)                                                                                           | Pizza Tower           | Ponzi SCAM Project                                                                                                       | | 56      | 0xd6f5ea3db32dbdc3e9866e60459788de8a2106c7    | [tripfoundation.io](https://tripfoundation.io/)                                                                                 | Trip Foundation       | Ponzi SCAM Project                                                                                                       | | 56      | 0x40755D50d6Af0B5955a7491D6A5DA94535c26382    | [snyperfund.com](https://snyperfund.com/?utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website)                   | Snyper Fund           | Ponzi SCAM Project                                                                                                       | | 56      | 0xaef10dd120e79f60d61048c306b7379c21d56a38    | [bakedpizza.app](https://bakedpizza.app/#?utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website)                  | Baked Pizza           | Ponzi SCAM Project                                                                                                       | | 56      | 0x7785035610075Ec7BcD7c833B03996E866FE0072    | [blockrewards.pro](https://blockrewards.pro/?utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website)               | Block Rewards         | Ponzi SCAM Project                                                                                                       |</p>
+| Chain_id | Address | Website | Project Name | Risk Reason Remark |
+|----------|---------|---------|--------------|-------------------|
+| 56 | 0x3f3f162e8F172fB681a4Fe9BE187B0FF21fE0734 | [avaricetoken.io](https://avaricetoken.io) | Avarice | Ponzi Scam Project |
+| 56 | | [bnbdaily.finance](https://bnbdaily.finance/) | BNB Daily Finance | Ponzi project - Offers unsustainable rates of "DAILY ROI 0.7%". Lack of investments, product, documentation. Opaque team. |
+| 56 | 0x3471Cc34ED5d7ceadd0a533dedA18ecC0d6Bd927 | [cashbox.cfd](https://cashbox.cfd/) | Cashbox Investment Pool | High APR/APY. Lack of investments, product, documentation. Opaque team. |
+| 56 | | [finx.global](https://app.finx.global/) | FinSwap | High APR/APY. Centralization in top holders. |
+| 56 | | [busdyield.com](https://busdyield.com) | BUSDYield | Ponzi SCAM Project |
+| 56 | | [twitter.com/x_roi_community](https://twitter.com/x_roi_community) | TrueFund | Ponzi scam Project |
+| 56 | | [bnbcrush.io](https://bnbcrush.io) | BNB Crush | Ponzi scam Project |
+| 56 | | [ai-trader.app](https://ai-trader.app) | AI Trader | Ponzi scam Project |
+| 56 | | [chronostake.com](https://chronostake.com) | ChronoStake | Ponzi scam Project |
+| 56 | | [rewardscapital.app](https://rewardscapital.app/) | Reward Capital | Ponzi SCAM Project |
+| 56 | | [sharkbnb.cloud](https://sharkbnb.cloud/) | Shark BNB | Ponzi SCAM Project |
+| 56 | 0x00000065cBADeAD116136940b302F938284f2BDc | [poop.fi](https://poop.fi/) | Poop | Ponzi SCAM Project |
+| 56 | 0xa06411Af90C84fa9Ba4168CC08D8618A602826ba | [staker.cafe](https://staker.cafe/) | Staker Cafe | Ponzi SCAM Project |
+| 56 | | [matrixpro.vip](https://matrixpro.vip) | Matrix Pro | Ponzi SCAM Project |
+| 56 | 0x80B48C38Ced124eA15a2c19684877ccE4Ab2D524 | [lamon.app](https://lamon.app/?utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website) | Lamon App | Ponzi SCAM Project |
+| 56 | | [fin-toch.com](https://fin-toch.com/?utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website) | FTC | Ponzi SCAM Project |
+| 56 | 0xca7Ea9003a9cA60c2adC054a379035723A7a9F49 | [kingdomlegacy.io](https://www.kingdomlegacy.io/?p=0xe81209fB4C63E1aE6A9Cc4498d75cd4C7Ae947CA&utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website) | Kingdom Legacy | Ponzi SCAM Project |
+| 56 | 0xd96099403F4b47C3046A6Da11d8cAf254D806398 | [towers.pizza](https://towers.pizza/) | Pizza Tower | Ponzi SCAM Project |
+| 56 | 0xd6f5ea3db32dbdc3e9866e60459788de8a2106c7 | [tripfoundation.io](https://tripfoundation.io/) | Trip Foundation | Ponzi SCAM Project |
+| 56 | 0x40755D50d6Af0B5955a7491D6A5DA94535c26382 | [snyperfund.com](https://snyperfund.com/?utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website) | Snyper Fund | Ponzi SCAM Project |
+| 56 | 0xaef10dd120e79f60d61048c306b7379c21d56a38 | [bakedpizza.app](https://bakedpizza.app/#?utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website) | Baked Pizza | Ponzi SCAM Project |
+| 56 | 0x7785035610075Ec7BcD7c833B03996E866FE0072 | [blockrewards.pro](https://blockrewards.pro/?utm_source=DappRadar&utm_medium=deeplink&utm_campaign=visit-website) | Block Rewards | Ponzi SCAM Project |
